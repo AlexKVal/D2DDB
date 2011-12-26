@@ -1,0 +1,10 @@
+This is the "D2 distributed database" D2DDB project.
+
+Algo:
+client daemon:
+it polls the TrackingTable and pulls from it changes,
+and save them into Queue table in aux-db,  and
+clean those trackings-rows from TrackingTable immediately.
+
+then it sorts/purges those changes and send to server.
+ClientMessage[new_changes, acknowledge_of_previous_changes_from_server]

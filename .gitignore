@@ -1,0 +1,17 @@
+.rvmrc
+*.sw?
+.DS_Store
+coverage*
+doc
+rdoc
+pkg
+tmp
+log
+Gemfile.lock
+.bundle
+*.rbc
+bin
+.rbx
+.yardoc
+vendor
+Gemfile-custom
