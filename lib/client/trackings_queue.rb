@@ -14,8 +14,33 @@ module Filial
       return false
     end
 
+    # U+ : U - it's done by SQL server by GROUP BY
+    # IU : I
+    # I[U]D : nothing
+    # UD : D
+    # D[U]I : U
+    #
+    # [ combo (IUD)I : I  |  (IUD)(IU) : I  |  U(DI) : U  |  (DI)U : U ]
+    #
+    # removes all previous Updates if last is Update => Update (by GROUP BY)
+    # removes all next Updates if no Delete and first is Insert => Insert
+    # removes all if first Insert and last Delete
+    # removes previous Updates if no Inserts and last is Delete => Delete
+    # removes Delete (and Updates if in the middle) if last is Insert => Update
+    # =========================================================================
+    # all above simpler:
+    # I..U : U
+    # I..D : -
+    # I..I : I
+    # U..U : U
+    # U..D : D
+    # U..I : U
+    # D..U : U
+    # D..D : D
+    # D..I : U
     def purge!
 
+      @trackings = Tracking.all
     end
 
     private
