@@ -25,8 +25,8 @@ module Filial
 
     def get_trackings!
       if table_tracking.poll
-        trackings = table_tracking.read_trackings
-        table_tracking.delete_read_trackings if trackings_queue.save_trackings!(trackings)
+        not_parsed_trackings = table_tracking.read_trackings
+        table_tracking.delete_read_trackings if trackings_queue.save_trackings!(not_parsed_trackings)
       end
     end
 

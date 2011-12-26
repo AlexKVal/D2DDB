@@ -1,6 +1,6 @@
 require 'data_mapper'
 
-DataMapper::Logger.new($stdout, :debug)
+DataMapper::Logger.new($stdout, :error)
 
 if ENV['TEST']
   DataMapper.setup(:default, 'sqlite::memory:')
@@ -21,4 +21,5 @@ module Filial
   end
 end
 
-DataMapper.auto_migrate! if ENV['TEST'] || !File.exists?(AUX_DB)
+DataMapper.auto_upgrade!
+#DataMapper.auto_migrate! if ENV['TEST'] || !File.exists?(AUX_DB)

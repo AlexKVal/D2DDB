@@ -11,7 +11,7 @@ module Filial
     end
 
     def read_trackings
-      Pvsw.do_sql_multiple_results("SELECT * FROM urDataCh") do |stmt|
+      Pvsw.do_sql_multiple_results("SELECT * FROM urDataCh ORDER BY ID") do |stmt|
         @trackings = stmt.fetch_all
       end
       @trackings

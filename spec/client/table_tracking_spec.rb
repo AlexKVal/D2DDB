@@ -29,11 +29,27 @@ module Filial
         "INSERT INTO urDataCh (tblOper, rowWithID) VALUES('twoTbl U', 23)")
       end
 
-      it "returns values in arrays and saves value in @trackings" do
+      it "returns values in arrays and saves them in @trackings" do
         trackings = table_tracking.read_trackings
         trackings.size.should == 2
         trackings.should include [1, 'oneTbl I', 12]
         trackings.should include [2, 'twoTbl U', 23]
+
+        table_tracking.trackings.should == trackings
+      end
+
+      it "returns values in array ordered by ID" do
+        Pvsw.do_some_sqls_no_result(
+          "INSERT INTO urDataCh (tblOper, rowWithID) VALUES('Three D', 214)",
+          "INSERT INTO urDataCh (tblOper, rowWithID) VALUES('oneTbl I', 12)",
+          "INSERT INTO urDataCh (tblOper, rowWithID) VALUES('twoTbl U', 23)")
+        trackings = table_tracking.read_trackings
+        trackings.size.should == 5
+        trackings[0].should == [1, 'oneTbl I', 12]
+        trackings[1].should == [2, 'twoTbl U', 23]
+        trackings[2].should == [3, 'Three D', 214]
+        trackings[3].should == [4, 'oneTbl I', 12]
+        trackings[4].should == [5, 'twoTbl U', 23]
 
         table_tracking.trackings.should == trackings
       end

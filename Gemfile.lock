@@ -3,6 +3,7 @@ GEM
   specs:
     addressable (2.2.6)
     bcrypt-ruby (3.0.1)
+    bcrypt-ruby (3.0.1-x86-mingw32)
     data_mapper (1.2.0)
       dm-aggregates (~> 1.2.0)
       dm-constraints (~> 1.2.0)
@@ -52,6 +53,8 @@ GEM
       dm-core (~> 1.2.0)
     do_sqlite3 (0.10.7)
       data_objects (= 0.10.7)
+    do_sqlite3 (0.10.7-x86-mingw32)
+      data_objects (= 0.10.7)
     fastercsv (1.5.4)
     ffi (1.0.11)
     growl (1.0.3)
@@ -80,6 +83,7 @@ GEM
 
 PLATFORMS
   ruby
+  x86-mingw32
 
 DEPENDENCIES
   data_mapper
