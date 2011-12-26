@@ -1,8 +1,14 @@
+require_relative 'tracking'
+
 module Filial
   class TrackingsQueue
-    def purge!
-      attr_accessor :trackings
+    attr_accessor :trackings
 
+    def save_trackings!
+
+    end
+
+    def purge!
 
     end
   end

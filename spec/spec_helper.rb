@@ -15,9 +15,12 @@ rescue LoadError
 end
 
 Spork.prefork do
+  ENV['TEST'] = 'True'
+
   require "client"
 
   Pvsw.odbc_alias = "TestDB.NET"
+
 
   Dir['./spec/support/**/*.rb'].map {|f| require f}
 

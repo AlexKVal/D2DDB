@@ -1,6 +1,8 @@
 source 'http://rubygems.org'
 
 gem "ruby-odbc"
+gem "dm-sqlite-adapter"
+gem "data_mapper"
 
 group :development, :test do
   gem "rspec"

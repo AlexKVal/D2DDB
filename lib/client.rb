@@ -2,6 +2,7 @@ require_relative "client/config"
 require_relative "client/table_tracking"
 require_relative "client/trackings_queue"
 
+
 module Filial
   class Client
     attr_accessor :table_tracking
