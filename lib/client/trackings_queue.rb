@@ -28,16 +28,7 @@ module Filial
     # removes previous Updates if no Inserts and last is Delete => Delete
     # removes Delete (and Updates if in the middle) if last is Insert => Update
     # =========================================================================
-    # all above simpler:
-    # I..U : U
-    # I..D : -
-    # I..I : I
-    # U..U : U
-    # U..D : D
-    # U..I : U
-    # D..U : U
-    # D..D : D
-    # D..I : U
+    # all above simpler see simplifier()
     def purge!
 
       @trackings = Tracking.all
@@ -53,5 +44,24 @@ module Filial
         result << action
       end
 
+      # for same Table and Row in it
+      # I..U : U
+      # I..D : -
+      # I..I : I
+      # U..U : U
+      # U..D : D
+      # U..I : U
+      # D..U : U
+      # D..D : D
+      # D..I : U
+      def simplifier(ordered_actions_list)
+        last = ordered_actions_list.last
+        case ordered_actions_list.first
+        when 'I'
+          last == 'D' ? nil : last
+        when 'U', 'D'
+          last == 'D' ? 'D' : 'U'
+        end
+      end
   end
 end

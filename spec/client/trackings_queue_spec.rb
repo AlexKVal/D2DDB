@@ -21,6 +21,26 @@ module Filial
 
     end
 
+    describe "#simplifier" do
+      [
+        # spec_name  input for method         result
+        ["I..U : U", ['I', 'U', 'D', 'I', 'U'], 'U'],
+        ["I..D : -", ['I', 'U', 'D', 'I', 'D'], nil],
+        ["I..I : I", ['I', 'U', 'U', 'D', 'I'], 'I'],
+        ["U..U : U", ['U', 'U', 'D', 'I', 'U'], 'U'],
+        ["U..D : D", ['U', 'U', 'D', 'I', 'D'], 'D'],
+        ["U..I : U", ['U', 'U', 'U', 'D', 'I'], 'U'],
+        ["D..U : U", ['D', 'I', 'D', 'I', 'U'], 'U'],
+        ["D..D : D", ['D', 'I', 'D', 'I', 'D'], 'D'],
+        ["D..I : U", ['D', 'I', 'U', 'U', 'I'], 'U'],
+      ].each do |spec, input, result|
+        it "#{spec}" do
+          trackings_queue.send(:simplifier, input).should == result
+        end
+      end
+
+    end
+
     describe "#purge!" do
 
     end
