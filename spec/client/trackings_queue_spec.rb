@@ -56,8 +56,9 @@ module Filial
           @raw_trackings << [1, 'oneTbl I', 12]
           @raw_trackings << [2, 'oneTbl U', 12]
           #
+          @raw_trackings << [3, 'secTbl D', 212]
           @raw_trackings << [3, 'secTbl I', 212]
-          @raw_trackings << [4, 'secTbl D', 212]
+          @raw_trackings << [4, 'secTbl U', 212]
           #
           @raw_trackings << [5, 'oneTbl I', 33]
           @raw_trackings << [6, 'oneTbl U', 33]
@@ -70,7 +71,7 @@ module Filial
           #
           @raw_trackings << [12, 'thirdTbl I', 1]
           #
-          @raw_trackings << [13, 'thirdTbl I', 2]
+          @raw_trackings << [13, 'thirdTbl U', 2]
           @raw_trackings << [14, 'thirdTbl U', 2]
           @raw_trackings << [15, 'thirdTbl U', 2]
         end
@@ -78,13 +79,13 @@ module Filial
         it "uses simplifier over each distinct [table:rowid] tracking" do
           trackings_queue.save_trackings @raw_trackings
           #before
-          trackings_queue.trackings.size.should == 15
+          trackings_queue.trackings.size.should == 16
 
           trackings_queue.purge!
 
           #after
           trs = trackings_queue.trackings
-          trs.size.should == 4
+          trs.size.should == 5
           
           one_12 = trs.all(tblname: 'oneTbl', rowid: 12)
           one_12.size.should == 1
@@ -95,7 +96,8 @@ module Filial
           one_33.first.action.should == 'I'
           
           sec_212 = trs.all(tblname: 'secTbl', rowid: 212)
-          sec_212.size.should == 0
+          sec_212.size.should == 1
+          sec_212.first.action.should == 'U'
           
           sec_233 = trs.all(tblname: 'secTbl', rowid: 233)
           sec_233.size.should == 0
@@ -106,12 +108,12 @@ module Filial
           
           third_2 = trs.all(tblname: 'thirdTbl', rowid: 2)
           third_2.size.should == 1
-          third_2.first.action.should == 'I'
+          third_2.first.action.should == 'U'
         end
+
 
       end
     end
-
 
   end
 end

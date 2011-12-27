@@ -1,6 +1,6 @@
 require 'data_mapper'
 
-DataMapper::Logger.new($stdout, :debug) #:error
+DataMapper::Logger.new($stdout, :error)
 
 if ENV['TEST']
   DataMapper.setup(:default, 'sqlite::memory:')
