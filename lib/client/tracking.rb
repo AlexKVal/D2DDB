@@ -1,6 +1,6 @@
 require 'data_mapper'
 
-DataMapper::Logger.new($stdout, :error)
+DataMapper::Logger.new($stdout, :debug) #:error
 
 if ENV['TEST']
   DataMapper.setup(:default, 'sqlite::memory:')
@@ -18,6 +18,10 @@ module Filial
     property :tblname, String,  :index => true, :length => 32
     property :rowid,   Integer, :index => true
     property :action,  String,  :length => 1 # I U D
+
+    def self.clear!
+      repository(:default).adapter.select("DELETE FROM #{storage_name}")
+    end
   end
 end
 

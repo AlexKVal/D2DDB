@@ -31,6 +31,7 @@ module Filial
     end
 
     def prepare_tracked_data
+      trackings_queue.purge!
       tracked_data_rows.get(trackings_queue.trackings)
       prepared_data_queue.save! tracked_data_rows
     end
