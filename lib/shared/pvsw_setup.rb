@@ -2,11 +2,6 @@ require_relative "pvsw"
 
 class PvswSetup < Pvsw
 
-  DONT_WATCH = %w(dFastLock UpdateLevel urDataCh)
-
-  attr_reader :tables_to_watch
-  attr_reader :id_columns
-
   def self.setup!
     ODBC::connect(Pvsw.odbc_alias) do |dbc|
       PvswSetup.new(dbc).run_setup
@@ -22,9 +17,6 @@ class PvswSetup < Pvsw
 
   def initialize(dbc)
     super
-
-    read_tables_names
-    read_id_columns
   end
 
   def run_setup
@@ -43,12 +35,12 @@ class PvswSetup < Pvsw
     #setup_triggers
   end
 
-private
-  def setup_table_for_changes
-    run_simple("DROP TABLE urDataCh") if table_exist? 'urDataCh'
-    #File.delete("urDataCh.mkd") if File.exists?("urDataCh.mkd")
+  private
+    def setup_table_for_changes
+      run_simple("DROP TABLE urDataCh") if table_exist? 'urDataCh'
+      #File.delete("urDataCh.mkd") if File.exists?("urDataCh.mkd")
 
-    run_simple "
+      run_simple "
       CREATE TABLE urDataCh USING 'urDataCh.mkd'
       (
         ID AUTOINC(4),
@@ -60,56 +52,56 @@ private
         ID UNIQUE,
         tblOper
       )"
-  end
-
-  def drop_triggers
-    return unless table_exist? 'X$Trigger'
-    @tables_to_watch.each do |tbl|
-      drop_triggers_for tbl
     end
-  end
 
-  def setup_triggers
-    @tables_to_watch.each do |tbl|
-      print "\n* "
-      setup_triggers_for tbl
-      print " #{tbl}"
+    def drop_triggers
+      return unless table_exist? 'X$Trigger'
+      @tables_to_watch.each do |tbl|
+        drop_triggers_for tbl
+      end
     end
-  end
 
-  def drop_trigger(trigger_name)
-    puts "x #{trigger_name}"
-    run_simple("DROP TRIGGER #{trigger_name}")
-  end
+    def setup_triggers
+      @tables_to_watch.each do |tbl|
+        print "\n* "
+        setup_triggers_for tbl
+        print " #{tbl}"
+      end
+    end
 
-  def trigger_exists?(trigger_name)
-    res = run_single_result("
+    def drop_trigger(trigger_name)
+      puts "x #{trigger_name}"
+      run_simple("DROP TRIGGER #{trigger_name}")
+    end
+
+    def trigger_exists?(trigger_name)
+      res = run_single_result("
       SELECT COUNT(*) FROM X$Trigger WHERE Xt$Name = '#{trigger_name}'")
-    res == 1
-  end
-
-  def trigger_name(table, suffix)
-    "UR#{table[0..23]}#{suffix}"
-  end
-
-  def drop_triggers_for(table)
-    %w(Ins Upd Del).each do |suffix|
-      trigger = trigger_name(table, suffix)
-      drop_trigger trigger if trigger_exists? trigger
+      res == 1
     end
-  end
 
-  def setup_triggers_for(table)
-    create_insert_trigger table
-    print "+"
-    %w(Upd Del).each do |suffix|
-      create_trigger(table, suffix)
+    def trigger_name(table, suffix)
+      "UR#{table[0..23]}#{suffix}"
     end
-    print "u-"
-  end
 
-  def create_insert_trigger(table)
-    sql = "
+    def drop_triggers_for(table)
+      %w(Ins Upd Del).each do |suffix|
+        trigger = trigger_name(table, suffix)
+        drop_trigger trigger if trigger_exists? trigger
+      end
+    end
+
+    def setup_triggers_for(table)
+      create_insert_trigger table
+      print "+"
+      %w(Upd Del).each do |suffix|
+        create_trigger(table, suffix)
+      end
+      print "u-"
+    end
+
+    def create_insert_trigger(table)
+      sql = "
 CREATE TRIGGER #{trigger_name(table, 'Ins')}
 AFTER INSERT ON #{table}
 REFERENCING NEW AS REF
@@ -134,51 +126,29 @@ BEGIN
 
   INSERT INTO urDataCh (tblOper, rowWithID) VALUES('#{table} I', fNextID);
 END"
-    #File.write('sql.txt', sql)
-    run_simple sql
-  end
-
-  def create_trigger(table, suffix)
-    trigger_type, char_type = case suffix
-    when 'Upd'
-      ['UPDATE', 'U']
-    when 'Del'
-      ['DELETE', 'D']
+      #File.write('sql.txt', sql)
+      run_simple sql
     end
 
-    sql = "
+    def create_trigger(table, suffix)
+      trigger_type, char_type = case suffix
+      when 'Upd'
+        ['UPDATE', 'U']
+      when 'Del'
+        ['DELETE', 'D']
+      end
+
+      sql = "
 CREATE TRIGGER #{trigger_name(table, suffix)}
 AFTER #{trigger_type} ON #{table}
 REFERENCING OLD AS REF
 FOR EACH ROW
 INSERT INTO urDataCh (tblOper, rowWithID)
 VALUES('#{table} #{char_type}', REF.#{id_columns[table]})"
-    #File.write('sql.txt', sql)
-    run_simple sql
-  end
-
-  def read_tables_names
-    @tables_to_watch = []
-    stmt = @dbc.run("SELECT Xf$Name FROM X$File WHERE Xf$Flags=0 ORDER BY Xf$Name")
-    stmt.each do |row|
-      @tables_to_watch << row.first.strip
+      #File.write('sql.txt', sql)
+      run_simple sql
     end
-    stmt.drop
-    @tables_to_watch.delete_if {|t| DONT_WATCH.include?(t) }
 
-    # puts "\n#{'='*80}"
-    # puts @tables_to_watch.join(', ')
-    # puts "\n#{'='*80}"
-  end
-
-  def read_id_columns
-    @id_columns = {}
-    @tables_to_watch.each do |tbl|
-      stmt = @dbc.columns(tbl)
-        @id_columns[tbl] = stmt.fetch_first[3]
-      stmt.drop
-    end
-  end
 end
 
 ARGV[0] == "test" ? PvswSetup.setup_testdb : PvswSetup.setup!

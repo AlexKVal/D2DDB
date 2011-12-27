@@ -4,13 +4,17 @@
 require "odbc_utf8"
 
 class Pvsw
+  DONT_WATCH = %w(dFastLock UpdateLevel urDataCh)
+
+  attr_reader :tables_to_watch
+  attr_reader :id_columns
 
   class << self
-   attr_writer :odbc_alias
+    attr_writer :odbc_alias
 
-   def odbc_alias
-     @odbc_alias ||= "D2Main.NET"
-   end
+    def odbc_alias
+      @odbc_alias ||= "D2Main.NET"
+    end
   end
 
   def self.do_sql_no_result(sql)
@@ -28,7 +32,7 @@ class Pvsw
   def self.do_sql_multiple_results(sql, &block)
     ODBC::connect(odbc_alias) do |dbc|
       stmt = dbc.run(sql)
-        yield stmt
+      yield stmt
       stmt.drop
     end
   end
@@ -44,6 +48,9 @@ class Pvsw
 
   def initialize(dbc)
     @dbc = dbc
+
+    read_tables_names
+    read_id_columns
   end
 
   def run_simple(sql)
@@ -74,4 +81,26 @@ class Pvsw
     res == 1
   end
 
+  def read_tables_names
+    @tables_to_watch = []
+    stmt = @dbc.run("SELECT Xf$Name FROM X$File WHERE Xf$Flags=0 ORDER BY Xf$Name")
+    stmt.each do |row|
+      @tables_to_watch << row.first.strip
+    end
+    stmt.drop
+    @tables_to_watch.delete_if {|t| DONT_WATCH.include?(t) }
+
+    # puts "\n#{'='*80}"
+    # puts @tables_to_watch.join(', ')
+    # puts "\n#{'='*80}"
+  end
+
+  def read_id_columns
+    @id_columns = {}
+    @tables_to_watch.each do |tbl|
+      stmt = @dbc.columns(tbl)
+      @id_columns[tbl] = stmt.fetch_first[3]
+      stmt.drop
+    end
+  end
 end
