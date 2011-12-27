@@ -36,7 +36,7 @@ module Filial
 
     def send_tracked_data
       exchanger.send prepared_data_queue
-      prepared_data_queue.remove_acknowledged_data! exchanger.acknowledged_data
+      #prepared_data_queue.remove_acknowledged_data! exchanger.acknowledged_data
     end
   end
 end
