@@ -44,6 +44,10 @@ module Filial
       @trackings = Tracking.all
     end
 
+    def clear!
+      Tracking.clear!
+    end
+
     private
       def parse(one_not_parsed_tracking)
         # [2, 'twoTbl U', 23] => ['twoTbl', 23, 'U']

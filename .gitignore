@@ -1,4 +1,5 @@
 .rvmrc
+*.sqlite3
 Gemfile.lock
 *.sw?
 .DS_Store

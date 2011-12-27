@@ -1,11 +1,13 @@
 require 'spec_helper'
 
 module Filial
-  describe TrackingsQueue do
-    def queue_next_by
+  describe PreparedDataQueue do
+    describe "#queue_next_by" do
+      
     end
-
-    def remove_acknowledged_data!
+    
+    describe "#remove_acknowledged_data!" do
+      
     end
   end
 end
