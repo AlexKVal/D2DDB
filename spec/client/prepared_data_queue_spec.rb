@@ -1,7 +1,6 @@
 require 'spec_helper'
 
 module Filial
-  describe TrackedDataRows do
-    
+  describe TrackingsQueue do
   end
 end

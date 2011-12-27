@@ -4,11 +4,10 @@ module Filial
   describe Client do
     let(:trackings_queue)     { double("TrackingsQueue").as_null_object }
     let(:table_tracking)      { double("TableTracking").as_null_object }
-    let(:tracked_data_rows)   { double("TrackedDataRows") }
     let(:prepared_data_queue) { double("PreparedDataQueue") }
     let(:exchanger)           { double("Exchanger").as_null_object }
     let(:client) { Client.new(table_tracking, trackings_queue,
-                              tracked_data_rows, prepared_data_queue, exchanger) }
+                              prepared_data_queue, exchanger) }
 
     describe "#get_trackings!" do
       describe "when there are no trackings" do
@@ -40,13 +39,8 @@ module Filial
     end
 
     describe "#prepare_tracked_data" do
-      it "asks the TrackedDataRows to get data belonges to trackings" do
-        tracked_data = double("tracked_data")
-        data = double("data")
-        trackings_queue.should_receive(:trackings).and_return(tracked_data)
-        tracked_data_rows.should_receive(:get).with(tracked_data)
-        tracked_data_rows.should_receive(:data).and_return(data)
-        prepared_data_queue.should_receive(:save).with(data)
+      it "queue data from pvsw by trackings list" do
+        prepared_data_queue.should_receive(:queue_next_by).with(trackings_queue)
 
         client.prepare_tracked_data
       end
