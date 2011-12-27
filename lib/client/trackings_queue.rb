@@ -17,16 +17,24 @@ module Filial
 
       new_trackings = []
       track_keys.each do |key|
-        first_action = Tracking.all(tblname: key.tblname, rowid: key.rowid).first.action
-        last_action  = Tracking.all(tblname: key.tblname, rowid: key.rowid).last.action
+        trackings_for_this_key = Tracking.all(tblname: key.tblname, rowid: key.rowid)
 
-        result_action = simplifier(first_action, last_action)
+        actions_num  = trackings_for_this_key.count
+        first_action = trackings_for_this_key.first.action
+        last_action  = trackings_for_this_key.last.action
+
+        if actions_num > 1
+          result_action = simplifier(first_action, last_action)
+        else
+          result_action = first_action
+        end
         #puts "#{first_action}..#{last_action} : #{result_action}"
-        
+
         new_trackings << Tracking.new(
-                          tblname: key.tblname, 
-                          rowid:   key.rowid, 
-                          action:  result_action) if result_action
+          tblname: key.tblname,
+          rowid:   key.rowid,
+          action:  result_action
+        ) if result_action
       end
 
       # bulk update trackings table
