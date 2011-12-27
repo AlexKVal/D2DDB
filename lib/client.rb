@@ -1,6 +1,7 @@
 require_relative "client/config"
 require_relative "client/table_tracking"
 require_relative "client/trackings_queue"
+require_relative "client/tracked_data_rows"
 
 
 module Filial
@@ -32,8 +33,9 @@ module Filial
 
     def prepare_tracked_data
       trackings_queue.purge!
+
       tracked_data_rows.get(trackings_queue.trackings)
-      prepared_data_queue.save! tracked_data_rows
+      prepared_data_queue.save tracked_data_rows.data
     end
 
     def send_tracked_data

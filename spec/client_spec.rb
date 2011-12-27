@@ -42,9 +42,11 @@ module Filial
     describe "#prepare_tracked_data" do
       it "asks the TrackedDataRows to get data belonges to trackings" do
         tracked_data = double("tracked_data")
+        data = double("data")
         trackings_queue.should_receive(:trackings).and_return(tracked_data)
         tracked_data_rows.should_receive(:get).with(tracked_data)
-        prepared_data_queue.should_receive(:save!).with(tracked_data_rows)
+        tracked_data_rows.should_receive(:data).and_return(data)
+        prepared_data_queue.should_receive(:save).with(data)
 
         client.prepare_tracked_data
       end
