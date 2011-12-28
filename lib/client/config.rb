@@ -4,7 +4,7 @@ TEST_DB = "#{ROOT_DIR}/testdb.sqlite3"
 
 require 'data_mapper'
 
-DataMapper::Logger.new($stdout, :debug)
+DataMapper::Logger.new($stdout, :error)
 
 if ENV['TEST']
   DataMapper.setup(:default, "sqlite://#{TEST_DB}") #'sqlite::memory:')

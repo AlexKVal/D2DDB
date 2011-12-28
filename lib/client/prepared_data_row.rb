@@ -7,7 +7,7 @@ module Filial
     property :rowid,   Integer, :index => true
     property :action,  String,  :length => 1 # I U D
 
-    property :data,    String,  :length => 1000
+    property :data,    String,  :length => 1500, :required => false
 
     def self.clear!
       repository(:default).adapter.select("DELETE FROM #{storage_name}")

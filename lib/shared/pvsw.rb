@@ -1,10 +1,12 @@
 # 2.98 120 update
-#RealizColumns = "ID, TransType, aDate, aTime, Smena, DishID, DivID, CliID, PosID, WrkID, Quant, Amount, Discount, PayForm, DocNumber, OutDoor, Black, Nds, RealAttribute, EkkaNo, EkkaCheckNo, DocUID"
+#
 
 require "odbc_utf8"
+require 'json'
 
 class Pvsw
   DONT_WATCH = %w(dFastLock UpdateLevel urDataCh)
+  RealizColumns = "ID, TransType, aDate, aTime, Smena, DishID, DivID, CliID, PosID, WrkID, Quant, Amount, Discount, PayForm, DocNumber, OutDoor, Black, Nds, RealAttribute, EkkaNo, EkkaCheckNo, DocUID"
 
   attr_reader :tables_to_watch
   attr_reader :id_columns
@@ -54,7 +56,7 @@ class Pvsw
   end
 
   def run_simple(sql)
-    p sql
+    #p sql
     @dbc.do(sql)
   end
 
@@ -103,4 +105,25 @@ class Pvsw
       stmt.drop
     end
   end
+
+  def get_json_data_for(table, rowid)
+    cols = '*'
+    cols = RealizColumns if table == 'jRealizations' || table == 'jArcRealizations'
+    stmt = @dbc.run("SELECT #{cols} FROM #{table} WHERE #{id_columns[table]} = #{rowid}")
+    #columns = stmt.columns
+    row = stmt.fetch_hash
+    stmt.drop
+
+    # 4 - 4 byte int
+    # 5 - 2 byte int
+    # 6 - float
+    # 12 - string
+    # -7 - bool
+    # 91 - Date
+    # 92 - Time
+    # bool can be set to 0 or 1 for PVSW
+
+    row.to_json
+  end
+
 end

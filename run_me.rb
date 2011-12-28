@@ -1,13 +1,22 @@
-require_relative 'tracking_queue'
-require_relative 'table_tracking'
-require_relative 'tracked_data_rows'
-require_relative 'prepared_data_queue'
-require_relative 'exchanger'
-require_relative 'client'
+require_relative 'lib/client'
 
-3.times do
+module Filial
+
   client = Client.new
-  client.get_trackings!
-  client.prepare_tracked_data
-  client.send_tracked_data
+  while true
+    puts "\nget_trackings!"
+    puts "#{'='*60}"
+    client.get_trackings!
+    puts "#{'='*60}"
+    sleep(3)
+
+
+    puts "\prepare_tracked_data"
+    puts "#{'='*60}"
+    client.prepare_tracked_data
+    #client.send_tracked_data
+    puts "#{'='*60}"
+    sleep(6)
+  end
+
 end

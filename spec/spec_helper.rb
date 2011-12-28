@@ -1,4 +1,5 @@
 require 'rubygems'
+require 'rbconfig'
 
 begin
   require 'spork'
@@ -26,7 +27,10 @@ Spork.prefork do
 
   RSpec.configure do |c|
     c.treat_symbols_as_metadata_keys_with_true_values = true
-    c.filter_run_excluding(:pvsw)
+
+    if RbConfig::CONFIG['target_os'] =~ /darwin/i
+      c.filter_run_excluding(:pvsw)
+    end
     #c.filter_run_including(:pvsw)
 
     # c.include FakeFS::SpecHelpers, :fakefs

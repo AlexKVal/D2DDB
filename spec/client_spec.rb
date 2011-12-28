@@ -23,7 +23,7 @@ module Filial
           table_tracking.should_receive(:poll).ordered.and_return([:some, :trackings])
           table_tracking.should_receive(:read_trackings).ordered
           table_tracking.should_receive(:delete_read_trackings).ordered
-          trackings_queue.should_receive(:save_trackings!).and_return(true)
+          trackings_queue.should_receive(:save_trackings).and_return(true)
 
           client.get_trackings!
         end
@@ -31,7 +31,7 @@ module Filial
         it "polls and reads only trackings if queue them fails" do
           table_tracking.should_receive(:poll).ordered.and_return([:some, :trackings])
           table_tracking.should_receive(:read_trackings).ordered
-          trackings_queue.should_receive(:save_trackings!).and_return(false)
+          trackings_queue.should_receive(:save_trackings).and_return(false)
 
           client.get_trackings!
         end
@@ -45,7 +45,7 @@ module Filial
         client.prepare_tracked_data
       end
     end
-    
+
     describe "#send_tracked_data" do
       it "asks the Exchanger to send prepared data" do
         #data = double("data")

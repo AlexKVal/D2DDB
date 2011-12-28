@@ -2,6 +2,7 @@ require_relative "client/config"
 require_relative "client/table_tracking"
 require_relative "client/trackings_queue"
 require_relative "client/prepared_data_queue"
+require_relative "client/exchanger"
 
 
 module Filial
@@ -24,7 +25,7 @@ module Filial
     def get_trackings!
       if table_tracking.poll
         not_parsed_trackings = table_tracking.read_trackings
-        table_tracking.delete_read_trackings if trackings_queue.save_trackings!(not_parsed_trackings)
+        table_tracking.delete_read_trackings if trackings_queue.save_trackings(not_parsed_trackings)
       end
     end
 

@@ -86,32 +86,43 @@ module Filial
           #after
           trs = trackings_queue.trackings
           trs.size.should == 5
-          
+
           one_12 = trs.all(tblname: 'oneTbl', rowid: 12)
           one_12.size.should == 1
           one_12.first.action.should == 'I'
-          
+
           one_33 = trs.all(tblname: 'oneTbl', rowid: 33)
           one_33.size.should == 1
           one_33.first.action.should == 'I'
-          
+
           sec_212 = trs.all(tblname: 'secTbl', rowid: 212)
           sec_212.size.should == 1
           sec_212.first.action.should == 'U'
-          
+
           sec_233 = trs.all(tblname: 'secTbl', rowid: 233)
           sec_233.size.should == 0
-          
+
           third_1 = trs.all(tblname: 'thirdTbl', rowid: 1)
           third_1.size.should == 1
           third_1.first.action.should == 'I'
-          
+
           third_2 = trs.all(tblname: 'thirdTbl', rowid: 2)
           third_2.size.should == 1
           third_2.first.action.should == 'U'
         end
 
 
+      end
+
+      describe "#clear!" do
+        it "clear Tracking table and 'trackings' accessor" do
+          trackings_queue.save_trackings not_parsed_trackings
+          trackings_queue.trackings.size.should == 2
+
+          trackings_queue.clear!
+          trackings_queue.trackings.size.should == 0
+          Tracking.all.size.should == 0
+        end
       end
     end
 

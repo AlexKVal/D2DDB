@@ -2,7 +2,9 @@ require_relative 'tracking'
 
 module Filial
   class TrackingsQueue
-    attr_accessor :trackings
+    def trackings
+      @trackings ||= Tracking.all
+    end
 
     def save_trackings(not_parsed_trackings)
       not_parsed_trackings.each do |tr|
@@ -46,6 +48,7 @@ module Filial
 
     def clear!
       Tracking.clear!
+      @trackings = nil
     end
 
     private

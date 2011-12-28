@@ -31,7 +31,7 @@ class PvswSetup < Pvsw
     #drop_triggers
 
     setup_table_for_changes
-
+    setup_test_tables
     #setup_triggers
   end
 
@@ -51,6 +51,27 @@ class PvswSetup < Pvsw
       (
         ID UNIQUE,
         tblOper
+      )"
+    end
+
+    def setup_test_tables
+      run_simple("DROP TABLE tableOne") if table_exist? 'tableOne'
+
+      run_simple "
+      CREATE TABLE tableOne USING 'tableOne.mkd'
+      (
+        ID          AUTOINC(4),
+        string_prm  ZSTRING(31),
+        integer_prm INT(4),
+        short_prm   INT(2),
+        float_prm   FLOAT(8),
+        date_prm    DATE(4),
+        time_prm    TIME(4),
+        bool_prm    LOGICAL(1)
+      )
+      WITH INDEX
+      (
+        ID UNIQUE
       )"
     end
 
