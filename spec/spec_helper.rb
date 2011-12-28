@@ -19,6 +19,7 @@ Spork.prefork do
   ENV['TEST'] = 'True'
 
   require "client"
+  require "applier"
 
   Pvsw.odbc_alias = "TestDB.NET"
 

@@ -8,10 +8,28 @@ module Filial
     let(:pdq) {PreparedDataQueue.new}
 
     describe "#remove_acknowledged_data!" do
+      it "removes records with ids on the list" do
+        [
+          [1, 'oneTable', 23, 'I', 'json_data'],
+          [23, 'twoTable', 44, 'I', 'json_data'],
+          [45, 'oneTable', 23, 'U', 'json_data'],
+          [246, 'twoTable', 44, 'U', 'json_data'],
+          [556, 'twoTable', 44, 'U', 'json_data'],
+        ].each do |e|
+          PreparedDataRow.create(id: e[0], tblname: e[1],
+                                 rowid: e[2], action: e[3],
+                                 data: e[4])
+        end
+        PreparedDataRow.all.size.should == 5
 
+        acknowledged_ids = [1, 23, 45, 246]
+        pdq.remove_acknowledged_data!(acknowledged_ids)
+        PreparedDataRow.all.size.should == 1
+        PreparedDataRow.first.id.should == 556
+      end
     end
 
-    describe "database methods", :pvsw do
+    describe "pvsw-database methods", :pvsw do
       before do
         @tracks = [Track.new('tableOne', 1, 'I')]
         Pvsw.do_some_sqls_no_result(

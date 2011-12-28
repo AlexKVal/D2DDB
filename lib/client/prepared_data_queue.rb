@@ -13,7 +13,10 @@ module Filial
       trackings_queue.clear!
     end
 
-    def remove_acknowledged_data!(list)
+    def remove_acknowledged_data!(acknowledged_ids)
+      acknowledged_ids.each do |id|
+        PreparedDataRow.get(id).destroy
+      end
     end
 
     private

@@ -19,7 +19,7 @@ module Filial
 
     def delete_read_trackings
       return unless @trackings && @trackings.size > 0
-
+      # may be refactor this to use DataMapper methods. not sure.
       read_ids = @trackings.inject([]) {|ids, row| ids << row[0]}.join(', ')
       Pvsw.do_sql_single_result("DELETE FROM urDataCh WHERE ID IN(#{read_ids})")
       @trackings = nil

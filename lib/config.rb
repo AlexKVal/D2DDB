@@ -1,6 +1,9 @@
 ROOT_DIR = ::File.expand_path('../../..',  __FILE__)
 AUX_DB  = "#{ROOT_DIR}/client_aux.sqlite3"
-TEST_DB = "#{ROOT_DIR}/testdb.sqlite3"
+TEST_DB = "#{ROOT_DIR}/client_testdb.sqlite3"
+
+CAUX_DB  = "#{ROOT_DIR}/central_aux.sqlite3"
+CTEST_DB = "#{ROOT_DIR}/central_testdb.sqlite3"
 
 require 'data_mapper'
 
