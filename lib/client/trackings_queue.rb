@@ -1,4 +1,4 @@
-require_relative 'tracking'
+require_relative 'models/tracking'
 
 module Filial
   class TrackingsQueue

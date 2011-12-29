@@ -20,7 +20,7 @@ module Filial
       @trackings_queue     = tr_queue
       @prepared_data_queue = prep_data_q
       @exchanger           = exch
-    end 
+    end
 
     def get_trackings!
       if table_tracking.poll
