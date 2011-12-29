@@ -21,8 +21,7 @@ Spork.prefork do
   require "client"
   require "applier"
 
-  Pvsw.odbc_alias = "TestDB.NET"
-
+  Pvsw.odbc_alias = CENTRAL_ALIAS = "TestDB.NET"
 
   Dir['./spec/support/**/*.rb'].map {|f| require f}
 

@@ -9,7 +9,7 @@ class Pvsw
   RealizColumns = "ID, TransType, aDate, aTime, Smena, DishID, DivID, CliID, PosID, WrkID, Quant, Amount, Discount, PayForm, DocNumber, OutDoor, Black, Nds, RealAttribute, EkkaNo, EkkaCheckNo, DocUID"
 
   attr_reader :tables_to_watch
-  attr_reader :id_columns
+  attr_accessor :id_columns
 
   class << self
     attr_writer :odbc_alias

@@ -94,13 +94,13 @@ module Filial
           }
         end
 
-        it "doesn't read any data from pvsw if action is Delete" do
+        it "puts id-column name into data field if action is Delete" do
           res = pdq.send(:get_data_for, [Track.new('tableOne', 1, 'D')])
 
           res.first[0].should == 'tableOne'
           res.first[1].should == 1
           res.first[2].should == 'D'
-          res.first[3].should be_nil
+          res.first[3].should == 'ID'
         end
       end
 

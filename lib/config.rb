@@ -1,3 +1,5 @@
+CENTRAL_ALIAS = "CentrChab.NET" # alias for filial db on central server
+
 ROOT_DIR = ::File.expand_path('../..',  __FILE__)
 
 # require 'rbconfig'

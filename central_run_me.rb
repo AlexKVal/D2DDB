@@ -6,7 +6,7 @@ require_relative 'lib/client/prepared_data_queue'
 module Central
 
   applier = Applier.new
-  2.times do #while true # here must be server, who will dispatch incoming connections
+  while true # here must be server, who will dispatch incoming connections
     # then it will save incoming data into #{filial_code}_prepared_data
     # and then run Applier (in same Thread was receiving data)
 

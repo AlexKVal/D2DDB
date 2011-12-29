@@ -36,7 +36,7 @@ module Filial
             elem << tr.tblname
             elem << tr.rowid
             elem << tr.action
-            json_data = tr.action == 'D' ? nil : pvsw.get_json_data_for(tr.tblname, tr.rowid)
+            json_data = tr.action == 'D' ? "#{pvsw.id_columns[tr.tblname]}" : pvsw.get_json_data_for(tr.tblname, tr.rowid)
             elem << json_data
 
             data_to_queue << elem
