@@ -6,7 +6,7 @@ require_relative 'lib/client/prepared_data_queue'
 module Central
 
   applier = Applier.new
-  1.times do #while true # here must be server, who will dispatch incoming connections
+  2.times do #while true # here must be server, who will dispatch incoming connections
     # then it will save incoming data into #{filial_code}_prepared_data
     # and then run Applier (in same Thread was receiving data)
 
@@ -22,14 +22,13 @@ module Central
       received_data << [pdr.id, pdr.tblname, pdr.rowid, pdr.action, pdr.data]
     end
 
-    5.times{print '.'; sleep(1)}
+    #5.times{print '.'; sleep(1)}
 
     puts "\nreceived_data:"
     rdq = ReceivedDataQueue.new
-    rdq.save(received_data)
-    client_data_queue.remove_acknowledged_data!(rdq.saved_prepared_ids)
-    p rdq.saved_prepared_ids
-    rdq.clear_prepared_ids
+    saved_ids = rdq.save(received_data)
+    client_data_queue.remove_acknowledged_data!(saved_ids)
+    p saved_ids
     # =========================================================
 
 

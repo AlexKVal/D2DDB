@@ -19,6 +19,10 @@ module Filial
       acknowledged_ids.each do |id|
         PreparedDataRow.get(id).destroy
       end
+
+      if PreparedDataRow.all.size == 0
+        PreparedDataRow.clear!
+      end
     end
 
     private

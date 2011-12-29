@@ -3,7 +3,7 @@ require_relative 'models/tracking'
 module Filial
   class TrackingsQueue
     def trackings
-      @trackings ||= Tracking.all
+      Tracking.all
     end
 
     def save_trackings(not_parsed_trackings)
@@ -11,7 +11,6 @@ module Filial
         tblname, rowid, action = parse tr
         return false unless Tracking.create(tblname: tblname, rowid: rowid, action: action)
       end
-      @trackings = Tracking.all
     end
 
     def purge!
@@ -48,7 +47,6 @@ module Filial
 
     def clear!
       Tracking.clear!
-      @trackings = nil
     end
 
     private

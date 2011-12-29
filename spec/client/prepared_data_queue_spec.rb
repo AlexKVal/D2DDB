@@ -30,6 +30,26 @@ module Filial
         PreparedDataRow.first.id.should == 556
       end
 
+      it "resets sequence for id field if empty" do
+        [
+          [1, 'oneTable', 23, 'I', 'json_data'],
+          [23, 'twoTable', 44, 'I', 'json_data'],
+          [45, 'oneTable', 23, 'U', 'json_data']
+        ].each do |e|
+          PreparedDataRow.create(id: e[0], tblname: e[1],
+                                 rowid: e[2], action: e[3],
+                                 data: e[4])
+        end
+        PreparedDataRow.all.size.should == 3
+
+        acknowledged_ids = [1, 23, 45]
+        pdq.remove_acknowledged_data!(acknowledged_ids)
+        PreparedDataRow.all.size.should == 0
+        
+        PreparedDataRow.create(tblname: 'tbl', rowid: 1, action: 'D', data: nil)
+        PreparedDataRow.first.id.should == 1
+      end
+
     end
 
     describe "pvsw-database methods", :pvsw do
