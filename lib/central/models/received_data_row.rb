@@ -6,7 +6,6 @@ module Central
     property :tblname, String,  :index => true, :length => 32
     property :rowid,   Integer, :index => true
     property :action,  String,  :length => 1 # I U D
-
     property :data,    String,  :length => 1500, :required => false
 
     def self.clear!
