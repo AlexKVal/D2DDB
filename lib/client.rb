@@ -4,7 +4,6 @@ require_relative "client/trackings_queue"
 require_relative "client/prepared_data_queue"
 require_relative "client/exchanger"
 
-
 module Filial
   class Client
     attr_accessor :table_tracking

@@ -4,7 +4,7 @@ require_relative '../shared/pvsw'
 module Filial
   class PreparedDataQueue
     def data
-      @data ||= PreparedDataRow.all
+      PreparedDataRow.all
     end
 
     def queue_next_by(trackings_queue)
@@ -19,7 +19,6 @@ module Filial
       acknowledged_ids.each do |id|
         PreparedDataRow.get(id).destroy
       end
-      @data = nil
     end
 
     private

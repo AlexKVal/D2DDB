@@ -1,13 +1,12 @@
+require_relative '../../shared/model_shared_methods'
+
 module Central
   class SavedPreparedID
     include DataMapper::Resource
+    extend Shared::ModelSharedMethods
 
     property :id,       Serial
     property :saved_id, Integer, :index => true
-
-    def self.clear!
-      repository(:default).adapter.select("DELETE FROM #{storage_name}")
-    end
   end
 end
 

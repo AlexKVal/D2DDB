@@ -3,11 +3,13 @@ require 'spec_helper'
 module Filial
   Track = Struct.new(:tblname, :rowid, :action)
 
-
   describe PreparedDataQueue do
     let(:pdq) {PreparedDataQueue.new}
 
     describe "#remove_acknowledged_data!" do
+      before(:each) {PreparedDataRow.clear!}
+      after(:each)  {PreparedDataRow.clear!}
+
       it "removes records with ids on the list" do
         [
           [1, 'oneTable', 23, 'I', 'json_data'],
@@ -27,6 +29,7 @@ module Filial
         PreparedDataRow.all.size.should == 1
         PreparedDataRow.first.id.should == 556
       end
+
     end
 
     describe "pvsw-database methods", :pvsw do

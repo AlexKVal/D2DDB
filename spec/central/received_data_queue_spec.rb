@@ -4,6 +4,9 @@ module Central
   describe ReceivedDataQueue do
     let(:rdq) {ReceivedDataQueue.new}
 
+    before(:each) {ReceivedDataRow.clear!; rdq.clear_prepared_ids}
+    after(:each)  {ReceivedDataRow.clear!; rdq.clear_prepared_ids}
+
     describe "#save" do
       it "adds incoming data onto queue" do
         rdq.data.size.should == 0

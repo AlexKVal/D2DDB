@@ -5,17 +5,16 @@ module Central
   class ReceivedDataQueue
 
     def saved_prepared_ids
-      @saved_prepared_ids ||= SavedPreparedID.all.map(&:saved_id)
+      SavedPreparedID.all.map(&:saved_id)
     end
 
     #when sent acknowledge to Filial
     def clear_prepared_ids
-      SavedPreparedID.destroy
-      @saved_prepared_ids = nil
+      SavedPreparedID.clear!
     end
 
     def data
-      @data ||= ReceivedDataRow.all
+      ReceivedDataRow.all
     end
 
     def save(received_data)
@@ -29,19 +28,7 @@ module Central
           data:    row[4]
         )
       end
-      @saved_prepared_ids = nil
-      @data = ReceivedDataRow.all
     end
-
-    # def remove_acknowledged_data!(acknowledged_ids)
-    #   acknowledged_ids.each do |id|
-    #     PreparedDataRow.get(id).destroy
-    #   end
-    #   @data = nil
-    # end
-
-    private
-
 
   end
 end

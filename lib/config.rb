@@ -1,6 +1,14 @@
 ROOT_DIR = ::File.expand_path('../..',  __FILE__)
-AUX_DB  = "#{ROOT_DIR}/aux.sqlite3"
-TEST_DB = "#{ROOT_DIR}/testdb.sqlite3"
+
+# require 'rbconfig'
+# if RbConfig::CONFIG['target_os'] =~ /darwin/i
+  AUX_DB  = "#{ROOT_DIR}/auxdb.sqlite3"
+  TEST_DB = "#{ROOT_DIR}/testdb.sqlite3"
+# else
+#   p ROOT_DIR
+#   AUX_DB  = "c:/auxdb.sqlite3"
+#   TEST_DB = "c:/testdb.sqlite3"
+# end
 
 require 'data_mapper'
 
