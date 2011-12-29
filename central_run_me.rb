@@ -32,13 +32,14 @@ module Central
     # =========================================================
 
 
-    # puts "\ngot incoming data for _filial_code_"
-    # puts "#{'='*60}"
-    # applier.get_trackings!
-    # puts "#{'='*60}"
-    # sleep(3)
-    #
-    #
+    # now applier has to insert received data onto central dbase
+    puts "\ngot incoming data for _filial_code_"
+    puts "#{'='*60}"
+    applier.run
+    puts "#{'='*60}"
+    sleep(3)
+
+    # here should be the code preparing and sending data from Central to Filial db
     # puts "\prepare_tracked_data"
     # puts "#{'='*60}"
     # applier.prepare_tracked_data

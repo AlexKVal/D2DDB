@@ -45,7 +45,7 @@ module Filial
         acknowledged_ids = [1, 23, 45]
         pdq.remove_acknowledged_data!(acknowledged_ids)
         PreparedDataRow.all.size.should == 0
-        
+
         PreparedDataRow.create(tblname: 'tbl', rowid: 1, action: 'D', data: nil)
         PreparedDataRow.first.id.should == 1
       end
@@ -81,23 +81,38 @@ module Filial
       end
 
       describe "#get_data_for" do
-        it "reads data from pvsw in json format" do
-          pdq.send(:get_data_for, @tracks)
-          pdq.data.first[0].should == 'tableOne'
-          pdq.data.first[1].should == 1
-          pdq.data.first[2].should == 'I'
-          JSON.parse(pdq.data.first[3]).should == {"ID"=>1, "string_prm"=>"Three Param",
-                                                   "integer_prm"=>214323, "short_prm"=>30000,
-                                                   "float_prm"=>2.5, "date_prm"=>"2011-12-17",
-                                                   "time_prm"=>"00:41:20", "bool_prm"=>0}
+        it "returns read data from pvsw in json format" do
+          res = pdq.send(:get_data_for, @tracks)
+
+          res.first[0].should == 'tableOne'
+          res.first[1].should == 1
+          res.first[2].should == 'I'
+          JSON.parse(res.first[3]).should == {
+            "ID"=>1, "string_prm"=>"Three Param",
+            "integer_prm"=>214323, "short_prm"=>30000,
+            "float_prm"=>2.5, "date_prm"=>"2011-12-17",
+            "time_prm"=>"00:41:20", "bool_prm"=>0
+          }
         end
 
         it "doesn't read any data from pvsw if action is Delete" do
-          pdq.send(:get_data_for, [Track.new('tableOne', 1, 'D')])
-          pdq.data.first[0].should == 'tableOne'
-          pdq.data.first[1].should == 1
-          pdq.data.first[2].should == 'D'
-          pdq.data.first[3].should be_nil
+          res = pdq.send(:get_data_for, [Track.new('tableOne', 1, 'D')])
+
+          res.first[0].should == 'tableOne'
+          res.first[1].should == 1
+          res.first[2].should == 'D'
+          res.first[3].should be_nil
+        end
+      end
+
+      describe "#saves_data_as_prepared_data_rows" do
+        it "saves prepared data array to queue as PreparedDataRow" do
+          pdq.data.size.should eq 0
+
+          data_array = pdq.send(:get_data_for, @tracks)
+          pdq.send(:saves_data_as_prepared_data_rows, data_array)
+
+          pdq.data.size.should eq 1
         end
       end
 

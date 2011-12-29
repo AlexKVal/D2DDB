@@ -56,6 +56,7 @@ class PvswSetup < Pvsw
 
     def setup_test_tables
       run_simple("DROP TABLE tableOne") if table_exist? 'tableOne'
+      run_simple("DROP TABLE tableTwo") if table_exist? 'tableTwo'
 
       run_simple "
       CREATE TABLE tableOne USING 'tableOne.mkd'
@@ -68,6 +69,19 @@ class PvswSetup < Pvsw
         date_prm    DATE(4),
         time_prm    TIME(4),
         bool_prm    LOGICAL(1)
+      )
+      WITH INDEX
+      (
+        ID UNIQUE
+      )"
+
+      run_simple "
+      CREATE TABLE tableTwo USING 'tableTwo.mkd'
+      (
+        ID          AUTOINC(4),
+        string_prm  ZSTRING(31),
+        integer_prm INT(4),
+        date_prm    DATE(4)
       )
       WITH INDEX
       (

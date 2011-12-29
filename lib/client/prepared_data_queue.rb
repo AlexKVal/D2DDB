@@ -8,9 +8,8 @@ module Filial
     end
 
     def queue_next_by(trackings_queue)
-      get_data_for(trackings_queue.trackings)
-
-      saves_data_as_prepared_data_rows
+      data_to_queue = get_data_for(trackings_queue.trackings)
+      saves_data_as_prepared_data_rows(data_to_queue)
 
       trackings_queue.clear!
     end
@@ -28,7 +27,7 @@ module Filial
     private
       def get_data_for(trackings)
         #[[table, rowid, action, json_data], [..]]
-        @data_to_queue = []
+        data_to_queue = []
         ODBC::connect(Pvsw.odbc_alias) do |dbc|
           pvsw = Pvsw.new(dbc)
 
@@ -40,16 +39,16 @@ module Filial
             json_data = tr.action == 'D' ? nil : pvsw.get_json_data_for(tr.tblname, tr.rowid)
             elem << json_data
 
-            @data_to_queue << elem
+            data_to_queue << elem
           end
-
         end
+        data_to_queue
       end
 
-      def saves_data_as_prepared_data_rows
-        @data_to_queue.each do |pdr|
-          puts "saving data for: #{pdr[0]} #{pdr[1]} #{pdr[2]}"
-          PreparedDataRow.create(
+      def saves_data_as_prepared_data_rows(data_to_queue)
+        data_to_queue.each do |pdr|
+          puts "saving data as prepared for: #{pdr[0]} #{pdr[1]} #{pdr[2]}"
+          PreparedDataRow.create!(
             tblname: pdr[0],
             rowid:   pdr[1],
             action:  pdr[2],
