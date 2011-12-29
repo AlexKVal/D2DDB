@@ -11,6 +11,7 @@ module Central
     #when sent acknowledge to Filial
     def clear_prepared_ids
       SavedPreparedID.destroy
+      @saved_prepared_ids = nil
     end
 
     def data
@@ -28,6 +29,7 @@ module Central
           data:    row[4]
         )
       end
+      @saved_prepared_ids = nil
       @data = ReceivedDataRow.all
     end
 

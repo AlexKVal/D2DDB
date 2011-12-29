@@ -1,4 +1,4 @@
-ROOT_DIR = ::File.expand_path('../../..',  __FILE__)
+ROOT_DIR = ::File.expand_path('../..',  __FILE__)
 AUX_DB  = "#{ROOT_DIR}/aux.sqlite3"
 TEST_DB = "#{ROOT_DIR}/testdb.sqlite3"
 
