@@ -7,7 +7,6 @@ module Filial
     let(:pdq) {PreparedDataQueue.new}
 
     describe "#remove_acknowledged_data!" do
-      before(:each) {PreparedDataRow.clear!}
       after(:each)  {PreparedDataRow.clear!}
 
       it "removes records with ids on the list" do

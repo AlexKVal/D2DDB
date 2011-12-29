@@ -22,5 +22,8 @@ module Central
       saved_ids
     end
 
+    def clear!
+      ReceivedDataRow.clear!
+    end
   end
 end
