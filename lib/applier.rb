@@ -1,3 +1,4 @@
+SIDE = 'server'
 require_relative 'config'
 require_relative 'central/received_data_queue'
 require_relative 'shared/pvsw'

@@ -1,3 +1,4 @@
+SIDE = 'client'
 require_relative "config"
 require_relative "client/table_tracking"
 require_relative "client/trackings_queue"

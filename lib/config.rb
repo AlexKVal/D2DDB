@@ -9,7 +9,8 @@ ROOT_DIR = ::File.expand_path('../..',  __FILE__)
 
 # require 'rbconfig'
 # if RbConfig::CONFIG['target_os'] =~ /darwin/i
-  AUX_DB  = "#{ROOT_DIR}/auxdb.sqlite3"
+  raise "SIDE must be set to 'server' or 'client'" if SIDE.nil?
+  AUX_DB  = "#{ROOT_DIR}/#{SIDE}_db.sqlite3"
   TEST_DB = "#{ROOT_DIR}/testdb.sqlite3"
 # else
 #   p ROOT_DIR
