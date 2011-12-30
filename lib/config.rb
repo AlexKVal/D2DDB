@@ -1,4 +1,9 @@
+# Client-side
+FILIAL_ID = 'Chab' # used for distinguish connections on server-side
+
+# Server-side
 CENTRAL_ALIAS = "CentrChab.NET" # alias for filial db on central server
+CENTRAL_PREFIX = 'Chab' # prefix for tables
 
 ROOT_DIR = ::File.expand_path('../..',  __FILE__)
 

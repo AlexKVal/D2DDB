@@ -2,24 +2,11 @@ require_relative "pvsw"
 
 class PvswSetup < Pvsw
 
-  def self.setup!
-    ODBC::connect(Pvsw.odbc_alias) do |dbc|
-      PvswSetup.new(dbc).run_setup
-    end
-  end
-
-  def self.setup_testdb
-    #Pvsw.odbc_alias = "TestDB.NET"
-    ODBC::connect("TestDB.NET") do |dbc|
-      PvswSetup.new(dbc).run_setup_testdb
-    end
-  end
-
   def initialize(dbc)
     super
   end
 
-  def run_setup
+  def run_setup_clientdb
     drop_triggers
 
     setup_table_for_changes
@@ -33,6 +20,8 @@ class PvswSetup < Pvsw
     setup_table_for_changes
     setup_test_tables
     #setup_triggers
+    
+    puts "Ok."
   end
 
   private
@@ -40,7 +29,7 @@ class PvswSetup < Pvsw
       run_simple("DROP TABLE urDataCh") if table_exist? 'urDataCh'
       #File.delete("urDataCh.mkd") if File.exists?("urDataCh.mkd")
 
-      run_simple "
+      sql = "
       CREATE TABLE urDataCh USING 'urDataCh.mkd'
       (
         ID AUTOINC(4),
@@ -52,6 +41,7 @@ class PvswSetup < Pvsw
         ID UNIQUE,
         tblOper
       )"
+      run_simple sql
     end
 
     def setup_test_tables
@@ -186,4 +176,31 @@ VALUES('#{table} #{char_type}', REF.#{id_columns[table]})"
 
 end
 
-ARGV[0] == "test" ? PvswSetup.setup_testdb : PvswSetup.setup!
+def print_help_message
+  puts "Usage:"
+  puts "#{$0} server or client or test :)"
+end
+
+def setup_client_side_db
+  ODBC::connect(Pvsw.odbc_alias) do |dbc|
+    PvswSetup.new(dbc).run_setup_clientdb
+  end
+end
+
+def setup_testdb
+  ODBC::connect("TestDB.NET") do |dbc|
+    PvswSetup.new(dbc).run_setup_testdb
+  end
+end
+
+case ARGV[0]
+when 'test'
+  setup_testdb
+when 'server'
+  setup_server_side_db
+when 'client'
+  setup_client_side_db
+else
+  print_help_message
+end
+
