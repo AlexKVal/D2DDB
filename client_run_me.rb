@@ -1,3 +1,5 @@
+SIDE = 'filial'
+
 require_relative 'lib/client'
 
 module Filial

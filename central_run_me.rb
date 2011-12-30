@@ -1,3 +1,5 @@
+SIDE = 'central'
+
 require_relative 'lib/applier'
 
 # debug

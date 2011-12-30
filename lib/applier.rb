@@ -1,5 +1,4 @@
-SIDE = 'server'
-require_relative 'config'
+require_relative 'configuration'
 require_relative 'central/received_data_queue'
 require_relative 'shared/pvsw'
 
@@ -52,7 +51,7 @@ module Central
           'null'
         else
           val
-        end        
+        end
       end
 
       def names_values_for_insert_from(jsondata)
