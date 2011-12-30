@@ -48,7 +48,7 @@ module Central
         when String
           "'#{val}'"
         when nil
-          "''"
+          'null'
         else
           val
         end        

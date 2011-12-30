@@ -11,10 +11,10 @@ module Central
         names.should eq %w(col1 col2)
       end
 
-      it "substitutes nil values into '' empty quotes" do
+      it "substitutes nil values into 'null'" do
         json_data = '{"nil1":null,"string2":"val2"}'
         names, values = applier.send(:names_values_for_insert_from, json_data)
-        values.should eq %w('' 'val2')
+        values.should eq %w(null 'val2')
       end
 
       it "quotes string values" do

@@ -110,7 +110,7 @@ class Pvsw
     cols = '*'
     cols = RealizColumns if table == 'jRealizations' || table == 'jArcRealizations'
     stmt = @dbc.run("SELECT #{cols} FROM #{table} WHERE #{id_columns[table]} = #{rowid}")
-    #columns = stmt.columns
+    # columns = stmt.columns
     row = stmt.fetch_hash
     stmt.drop
 

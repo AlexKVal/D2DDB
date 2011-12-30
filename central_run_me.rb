@@ -22,7 +22,7 @@ module Central
       received_data << [pdr.id, pdr.tblname, pdr.rowid, pdr.action, pdr.data]
     end
 
-    #5.times{print '.'; sleep(1)}
+    5.times{print '.'; sleep(1)}
 
     puts "\nreceived_data:"
     rdq = ReceivedDataQueue.new
