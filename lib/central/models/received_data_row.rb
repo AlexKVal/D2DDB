@@ -5,6 +5,8 @@ module Central
     include DataMapper::Resource
     extend Shared::ModelSharedMethods
 
+    storage_names[:default] = "#{CENTRAL_PREFIX}_received_data_rows"
+
     property :id,      Serial
     property :tblname, String,  :index => true, :length => 32
     property :rowid,   Integer, :index => true
