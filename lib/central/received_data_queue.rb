@@ -5,6 +5,7 @@ module Central
     def initialize(stdout = $stdout)
       @stdout = stdout
     end
+
     def data
       ReceivedDataRow.all
     end

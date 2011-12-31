@@ -4,13 +4,14 @@ require_relative '../shared/pvsw'
 
 module Central
   class Applier
-    def initialize(rdq = ReceivedDataQueue.new, stdout = $stdout)
-      @received_data_queue = rdq
+    def initialize(pvsw_alias, stdout = $stdout)
+      @received_data_queue = ReceivedDataQueue.new
+      Pvsw.odbc_alias = @pvsw_alias = pvsw_alias
       @stdout = stdout
     end
 
     def run
-      ODBC::connect(CENTRAL_ALIAS) do |dbc|
+      ODBC::connect(@pvsw_alias) do |dbc|
         pvsw = Pvsw.new(dbc)
 
         received_rows = @received_data_queue.data

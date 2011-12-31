@@ -7,7 +7,7 @@ module Filial
     let(:prepared_data_queue) { double("PreparedDataQueue") }
     let(:remote_double)       { double('proxy').as_null_object }
     let(:stdout) { StringIO.new }
-    let(:client) { Client.new('filial', table_tracking, trackings_queue, prepared_data_queue, stdout) }
+    let(:client) { Client.new('filial', TESTDB_ALIAS, table_tracking, trackings_queue, prepared_data_queue, stdout) }
 
     describe "#get_trackings!" do
       describe "when there are no trackings" do

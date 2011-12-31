@@ -2,8 +2,8 @@ require 'spec_helper'
 
 module Central
   describe Applier do
-    let(:stdout) { StringIO.new }
-    let(:applier) {Applier.new(stdout)}
+    let(:stdout)  { StringIO.new }
+    let(:applier) { Applier.new(TESTDB_ALIAS, stdout) }
 
     describe "#names_values_for_insert_from" do
       it "doesn't quotes column names" do
@@ -101,7 +101,7 @@ module Central
       def pvsw_table_two_size
         Pvsw.do_sql_single_result("SELECT COUNT(*) FROM tableTwo")
       end
-      
+
       def string_prm_of_table_two(id)
         Pvsw.do_sql_single_result("SELECT string_prm FROM tableTwo WHERE ID = #{id}")
       end

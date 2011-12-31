@@ -1,7 +1,7 @@
-require_relative "configuration"
-require_relative "client/table_tracking"
-require_relative "client/trackings_queue"
-require_relative "client/prepared_data_queue"
+require_relative "../configuration"
+require_relative "table_tracking"
+require_relative "trackings_queue"
+require_relative "prepared_data_queue"
 require 'drb'
 
 module Filial
@@ -15,7 +15,7 @@ module Filial
       @remote_object = DRbObject.new_with_uri server_uri
     end
 
-    def initialize(fil_id,
+    def initialize(fil_id, pvsw_alias,
                    tbl_tracking = TableTracking.new,
                    tr_queue     = TrackingsQueue.new,
                    prep_data_q  = PreparedDataQueue.new,
@@ -25,6 +25,8 @@ module Filial
       @trackings_queue     = tr_queue
       @prepared_data_queue = prep_data_q
       @stdout = stdout
+
+      Pvsw.odbc_alias = pvsw_alias
 
       @infinite = true
       @seconds_wait = 10

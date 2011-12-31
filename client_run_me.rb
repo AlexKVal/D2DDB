@@ -1,10 +1,10 @@
 SIDE = 'filial'
 
-require_relative 'lib/client'
+require_relative 'lib/client/client'
 
 module Filial
 
-  client = Client.new(FILIAL_ID)
+  client = Client.new(FILIAL_ID, FILIAL_ALIAS)
   client.setup_remote_object(SERVER_URI)
   while true
     puts "\nget_trackings!"

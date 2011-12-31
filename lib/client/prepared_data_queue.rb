@@ -3,6 +3,10 @@ require_relative '../shared/pvsw'
 
 module Filial
   class PreparedDataQueue
+    def initialize(stdout = $stdout)
+      @stdout = stdout
+    end
+
     def data
       PreparedDataRow.all
     end
@@ -47,7 +51,7 @@ module Filial
 
       def saves_data_as_prepared_data_rows(data_to_queue)
         data_to_queue.each do |pdr|
-          puts "saving data as prepared for: #{pdr[0]} #{pdr[1]} #{pdr[2]}"
+          @stdout.puts "saving data as prepared for: #{pdr[0]} #{pdr[1]} #{pdr[2]}"
           PreparedDataRow.create!(
             tblname: pdr[0],
             rowid:   pdr[1],

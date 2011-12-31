@@ -4,7 +4,8 @@ module Filial
   Track = Struct.new(:tblname, :rowid, :action)
 
   describe PreparedDataQueue do
-    let(:pdq) {PreparedDataQueue.new}
+    let(:stdout) { StringIO.new }
+    let(:pdq) {PreparedDataQueue.new(stdout)}
 
     describe "#remove_acknowledged_data!" do
       after(:each)  {PreparedDataRow.clear!}
