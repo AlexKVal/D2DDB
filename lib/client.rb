@@ -2,7 +2,6 @@ require_relative "configuration"
 require_relative "client/table_tracking"
 require_relative "client/trackings_queue"
 require_relative "client/prepared_data_queue"
-require_relative "client/exchanger"
 require 'drb'
 
 module Filial
