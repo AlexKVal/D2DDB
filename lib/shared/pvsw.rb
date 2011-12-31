@@ -12,11 +12,7 @@ class Pvsw
   attr_accessor :id_columns
 
   class << self
-    attr_writer :odbc_alias
-
-    def odbc_alias
-      @odbc_alias ||= "D2Main.NET"
-    end
+    attr_accessor :odbc_alias
   end
 
   def self.do_sql_no_result(sql)

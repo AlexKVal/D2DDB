@@ -1,11 +1,17 @@
 SIDE = 'central'
 
-require_relative 'lib/central/applier'
-
-# debug
-require_relative 'lib/client/prepared_data_queue'
+require_relative 'lib/central/dispatcher'
+require 'drb'
 
 module Central
+
+  FRONT_OBJECT=TimeServer.new
+  DRb.start_service(LISTEN_URI, FRONT_OBJECT)
+  DRb.thread.join
+  
+
+
+
 
   applier = Applier.new
   while true # here must be server, who will dispatch incoming connections

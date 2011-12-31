@@ -2,7 +2,8 @@ require 'spec_helper'
 
 module Central
   describe ReceivedDataQueue do
-    let(:rdq) {ReceivedDataQueue.new}
+    let(:stdout) { StringIO.new }
+    let(:rdq) {ReceivedDataQueue.new(stdout)}
 
     after(:each)  {ReceivedDataRow.clear!}
 

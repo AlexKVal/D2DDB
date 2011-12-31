@@ -2,6 +2,9 @@ require_relative 'models/received_data_row'
 
 module Central
   class ReceivedDataQueue
+    def initialize(stdout = $stdout)
+      @stdout = stdout
+    end
     def data
       ReceivedDataRow.all
     end
@@ -10,7 +13,7 @@ module Central
     def save(received_data)
       saved_ids = []
       received_data.each do |row|
-        puts "saving received data: #{row[1]} #{row[2]} #{row[3]}"
+        @stdout.puts "saving received data: #{row[1]} #{row[2]} #{row[3]}"
         saved_ids << row[0]
         ReceivedDataRow.create!(
           tblname: row[1],
