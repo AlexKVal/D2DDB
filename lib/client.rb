@@ -7,8 +7,10 @@ require 'drb'
 module Filial
   class Client
     attr_accessor :remote_object
-
-    def connect_to_server(server_uri)
+    attr_accessor :infinite
+    attr_accessor :seconds_wait
+    
+    def setup_remote_object(server_uri)
       DRb.start_service
       @remote_object = DRbObject.new_with_uri server_uri
     end
@@ -21,6 +23,9 @@ module Filial
       @table_tracking      = tbl_tracking
       @trackings_queue     = tr_queue
       @prepared_data_queue = prep_data_q
+      
+      @infinite = true
+      @seconds_wait = 10
     end
 
     def get_trackings!
@@ -41,7 +46,16 @@ module Filial
       @prepared_data_queue.data.each do |pdr|
         data_to_transmit << [pdr.id, pdr.tblname, pdr.rowid, pdr.action, pdr.data]
       end
-      acknowledged_ids = @remote_object.process_filial_data(@filial_id, data_to_transmit)
+
+      acknowledged_ids = []
+      begin
+        acknowledged_ids = @remote_object.process_filial_data(@filial_id, data_to_transmit)
+        break
+      rescue
+        puts "Waiting till server is online."
+        sleep @seconds_wait
+      end while @infinite
+
       @prepared_data_queue.remove_acknowledged_data!(acknowledged_ids)
     end
   end

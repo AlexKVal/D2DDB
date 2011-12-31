@@ -1,6 +1,7 @@
 # Filial-side
 FILIAL_ID = 'Chab' # used for distinguish connections on server-side
 SERVER_URI = 'druby://localhost:8083'
+SECONDS_WAIT = 2
 
 # Central-side
 CENTRAL_ALIAS = "CentrChab.NET" # alias for filial db on central server

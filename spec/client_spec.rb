@@ -48,19 +48,40 @@ module Filial
     describe "#send_tracked_data" do
       Pdr = Struct.new :id, :tblname, :rowid, :action, :data
 
-      it "serialize prepared data, put them to remote and process ack_ids" do
-        data_rows = []
-        data_rows << Pdr.new(1, 'one', 23, 'I', 'json_data')
-        data_rows << Pdr.new(2, 'one', 23, 'U', 'json_data2')
-        serialized = [[1, 'one', 23, 'I', 'json_data'], [2, 'one', 23, 'U', 'json_data2']]
-        ack_ids = [1, 2]
+      let(:stdout) { StringIO.new }
 
-        prepared_data_queue.should_receive(:data).and_return(data_rows)
-        remote_double.should_receive(:process_filial_data).with('filial', serialized).and_return(ack_ids)
-        prepared_data_queue.should_receive(:remove_acknowledged_data!).with(ack_ids)
+      before do
+        @data_rows = []
+        @data_rows << Pdr.new(1, 'one', 23, 'I', 'json_data')
+        @data_rows << Pdr.new(2, 'one', 23, 'U', 'json_data2')
+        @serialized = [[1, 'one', 23, 'I', 'json_data'], [2, 'one', 23, 'U', 'json_data2']]
+        @ack_ids = [1, 2]
+        @orig_stdout = $stdout
+        $stdout = stdout
+      end
+      after { $stdout = @orig_stdout }
+
+      it "serialize prepared data, put them to remote and process ack_ids" do
+        prepared_data_queue.should_receive(:data).and_return(@data_rows)
+        remote_double.should_receive(:process_filial_data).with('filial', @serialized).and_return(@ack_ids)
+        prepared_data_queue.should_receive(:remove_acknowledged_data!).with(@ack_ids)
 
         client.remote_object = remote_double
         client.send_tracked_data
+      end
+
+      it "waits for the server is online infinitely" do
+        prepared_data_queue.should_receive(:data).and_return(@data_rows)
+        prepared_data_queue.should_receive(:remove_acknowledged_data!)
+
+        remote_double.stub(:process_filial_data) { raise "no connection" }
+        client.infinite = false
+        client.seconds_wait = 0
+
+        client.remote_object = remote_double
+        client.send_tracked_data
+
+        stdout.string.should match(/Waiting till server is online/)
       end
     end
 

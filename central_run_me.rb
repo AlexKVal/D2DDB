@@ -32,7 +32,7 @@ module Central
     client_data_queue.remove_acknowledged_data!(saved_ids)
     p saved_ids
     # =========================================================
-
+    # acknowledged_ids = @remote_object.process_filial_data(@filial_id, data_to_transmit)
 
     # now applier has to insert received data onto central dbase
     puts "\ngot incoming data for _filial_code_"
