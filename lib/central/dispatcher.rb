@@ -4,29 +4,24 @@ module Central
   # Front object for DRb on server side
   class Dispatcher
     def initialize(rdq = ReceivedDataQueue.new,
-                   appl = Applier.new(CENTRAL_ALIAS),
-                   stdout = $stdout)
+                   appl = Applier.new(CENTRAL_ALIAS))
       @received_data_queue = rdq
       @applier = appl
-      @stdout = stdout
     end
 
     def process_filial_data(filial_id, incoming_data)
       unless incoming_data.size == 0
-        @stdout.puts "\nIncoming data: #{incoming_data.size} for filial: #{filial_id}"
-        @stdout.puts "#{'='*60}"
-        saved_ids = @received_data_queue.save(incoming_data)
-        @stdout.puts "#{'='*60}"
+        LOG.debug "Dispatcher.process_filial_data"
 
-        @stdout.puts "\nProcessing data for filial: #{filial_id}"
-        @stdout.puts "#{'='*60}"
+        LOG.info "Incoming data: #{incoming_data.size} for filial: #{filial_id}"
+        saved_ids = @received_data_queue.save(incoming_data)
+
+        LOG.info "Processing data for filial: #{filial_id}"
         @applier.run
-        @stdout.puts "#{'='*60}"
 
         return saved_ids
       else
-        @stdout.puts "\nEmpty incoming data from filial: #{filial_id}"
-        @stdout.puts "#{'='*60}"
+        LOG.info "Empty incoming data from filial: #{filial_id}"
 
         return []
       end

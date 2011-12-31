@@ -38,10 +38,12 @@ module Filial
     def get_trackings!
       LOG.debug "Client.get_trackings!"
 
-      if @table_tracking.poll
+      poll_res = @table_tracking.poll
+      if poll_res
         not_parsed_trackings = @table_tracking.read_trackings
         @table_tracking.delete_read_trackings if @trackings_queue.save_trackings(not_parsed_trackings)
       end
+      poll_res
     end
 
     def prepare_tracked_data

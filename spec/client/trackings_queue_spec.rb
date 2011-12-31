@@ -123,7 +123,7 @@ module Filial
           trackings_queue.trackings.size.should == 0
           Tracking.all.size.should == 0
         end
-        
+
         it "resets sequence for id field" do
           trackings_queue.save_trackings not_parsed_trackings
           trackings_queue.trackings.size.should == 2

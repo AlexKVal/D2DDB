@@ -11,7 +11,7 @@ module Filial
   while true
     LOG.debug "main client loop"
 
-    unless client.get_trackings!
+    if client.get_trackings!
       LOG.info "got trackings"
 
       client.prepare_tracked_data

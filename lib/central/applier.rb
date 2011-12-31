@@ -4,19 +4,22 @@ require_relative '../shared/pvsw'
 
 module Central
   class Applier
-    def initialize(pvsw_alias, stdout = $stdout)
+    def initialize(pvsw_alias)
       @received_data_queue = ReceivedDataQueue.new
+
+      LOG.debug "Applier.new pvsw_alias=#{pvsw_alias}"
       Pvsw.odbc_alias = @pvsw_alias = pvsw_alias
-      @stdout = stdout
     end
 
     def run
+      LOG.debug "Applier.run"
+
       ODBC::connect(@pvsw_alias) do |dbc|
         pvsw = Pvsw.new(dbc)
 
         received_rows = @received_data_queue.data
         received_rows.each do |row|
-          @stdout.puts sql = case row.action
+          sql = case row.action
           when 'I'
             sql_for_insert(row.tblname, row.data)
           when 'U'
@@ -24,6 +27,8 @@ module Central
           when 'D'
             sql_for_delete(row.tblname, row.rowid, row.data)
           end
+
+          LOG.debug "Applier.run sql=#{sql}"
 
           pvsw.run_simple sql
         end

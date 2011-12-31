@@ -7,6 +7,8 @@ module Filial
     end
 
     def save_trackings(not_parsed_trackings)
+      LOG.debug "TrackingsQueue.save_trackings"
+
       not_parsed_trackings.each do |tr|
         tblname, rowid, action = parse tr
         return false unless Tracking.create(tblname: tblname, rowid: rowid, action: action)
@@ -14,6 +16,8 @@ module Filial
     end
 
     def purge!
+      LOG.debug "TrackingsQueue.purge!"
+
       track_keys = Tracking.all(:fields => [:tblname, :rowid], :unique => true, :order => [:tblname.asc])
 
       new_trackings = []
@@ -46,6 +50,7 @@ module Filial
     end
 
     def clear!
+      LOG.debug "TrackingsQueue.clear!"
       Tracking.clear!
     end
 

@@ -1,18 +1,58 @@
-# Logfile created on 2011-12-31 22:33:06 +0200 by logger.rb/31641
-2011-12-31 22:33:06 +0200: Client.new pvsw_alias=TestDB.NET
-2011-12-31 22:33:06 +0200: Client.get_trackings!
-2011-12-31 22:33:06 +0200: Client.new pvsw_alias=TestDB.NET
-2011-12-31 22:33:06 +0200: Client.get_trackings!
-2011-12-31 22:33:06 +0200: Client.new pvsw_alias=TestDB.NET
-2011-12-31 22:33:06 +0200: Client.get_trackings!
-2011-12-31 22:33:06 +0200: Client.new pvsw_alias=TestDB.NET
-2011-12-31 22:33:06 +0200: Client.prepare_tracked_data
-2011-12-31 22:33:06 +0200: Client.new pvsw_alias=TestDB.NET
-2011-12-31 22:33:06 +0200: Client.send_tracked_data
-2011-12-31 22:33:06 +0200: Client.send_tracked_data data_to_transmit=[[1, "one", 23, "I", "json_data"], [2, "one", 23, "U", "json_data2"]]
-2011-12-31 22:33:06 +0200: Client.send_tracked_data begin remote_object.process_filial_data
-2011-12-31 22:33:06 +0200: Client.new pvsw_alias=TestDB.NET
-2011-12-31 22:33:06 +0200: Client.send_tracked_data
-2011-12-31 22:33:06 +0200: Client.send_tracked_data data_to_transmit=[[1, "one", 23, "I", "json_data"], [2, "one", 23, "U", "json_data2"]]
-2011-12-31 22:33:06 +0200: Client.send_tracked_data begin remote_object.process_filial_data
-2011-12-31 22:33:06 +0200: Waiting till server is online. Sleep for 0 seconds
+# Logfile created on 2011-12-31 23:41:49 +0200 by logger.rb/31641
+2011-12-31 23:41:49 +0200: Applier.new pvsw_alias=TestDB.NET
+2011-12-31 23:41:49 +0200: Applier.new pvsw_alias=TestDB.NET
+2011-12-31 23:41:49 +0200: Applier.new pvsw_alias=TestDB.NET
+2011-12-31 23:41:49 +0200: Applier.new pvsw_alias=TestDB.NET
+2011-12-31 23:41:49 +0200: Applier.new pvsw_alias=TestDB.NET
+2011-12-31 23:41:49 +0200: Applier.new pvsw_alias=TestDB.NET
+2011-12-31 23:41:49 +0200: Applier.new pvsw_alias=TestDB.NET
+2011-12-31 23:41:49 +0200: Applier.new pvsw_alias=TestDB.NET
+2011-12-31 23:41:49 +0200: Applier.new pvsw_alias=TestDB.NET
+2011-12-31 23:41:49 +0200: Applier.new pvsw_alias=TestDB.NET
+2011-12-31 23:41:49 +0200: Applier.new pvsw_alias=TestDB.NET
+2011-12-31 23:41:49 +0200: Applier.new pvsw_alias=TestDB.NET
+2011-12-31 23:41:49 +0200: Applier.new pvsw_alias=TestDB.NET
+2011-12-31 23:41:49 +0200: Dispatcher.process_filial_data
+2011-12-31 23:41:49 +0200: Incoming data: 2 for filial: filial
+2011-12-31 23:41:49 +0200: Processing data for filial: filial
+2011-12-31 23:41:49 +0200: ReceivedDataQueue.save
+2011-12-31 23:41:49 +0200: saving received data: twoTable 44 I
+2011-12-31 23:41:49 +0200: ReceivedDataQueue.save
+2011-12-31 23:41:49 +0200: saving received data: oneTable 23 I
+2011-12-31 23:41:49 +0200: saving received data: twoTable 44 I
+2011-12-31 23:41:49 +0200: saving received data: oneTable 23 U
+2011-12-31 23:41:49 +0200: saving received data: twoTable 44 U
+2011-12-31 23:41:49 +0200: saving received data: twoTable 44 U
+2011-12-31 23:41:49 +0200: ReceivedDataQueue.save
+2011-12-31 23:41:49 +0200: saving received data: oneTable 23 I
+2011-12-31 23:41:49 +0200: saving received data: twoTable 44 I
+2011-12-31 23:41:49 +0200: saving received data: oneTable 23 U
+2011-12-31 23:41:49 +0200: ReceivedDataQueue.clear!
+2011-12-31 23:41:49 +0200: ReceivedDataQueue.save
+2011-12-31 23:41:49 +0200: saving received data: twoTable 44 I
+2011-12-31 23:41:49 +0200: Client.new pvsw_alias=TestDB.NET
+2011-12-31 23:41:49 +0200: Client.get_trackings!
+2011-12-31 23:41:49 +0200: Client.new pvsw_alias=TestDB.NET
+2011-12-31 23:41:49 +0200: Client.get_trackings!
+2011-12-31 23:41:49 +0200: Client.new pvsw_alias=TestDB.NET
+2011-12-31 23:41:49 +0200: Client.get_trackings!
+2011-12-31 23:41:49 +0200: Client.new pvsw_alias=TestDB.NET
+2011-12-31 23:41:49 +0200: Client.prepare_tracked_data
+2011-12-31 23:41:49 +0200: Client.new pvsw_alias=TestDB.NET
+2011-12-31 23:41:49 +0200: Client.send_tracked_data
+2011-12-31 23:41:49 +0200: Client.send_tracked_data data_to_transmit=[[1, "one", 23, "I", "json_data"], [2, "one", 23, "U", "json_data2"]]
+2011-12-31 23:41:49 +0200: Client.send_tracked_data begin remote_object.process_filial_data
+2011-12-31 23:41:49 +0200: Client.new pvsw_alias=TestDB.NET
+2011-12-31 23:41:49 +0200: Client.send_tracked_data
+2011-12-31 23:41:49 +0200: Client.send_tracked_data data_to_transmit=[[1, "one", 23, "I", "json_data"], [2, "one", 23, "U", "json_data2"]]
+2011-12-31 23:41:49 +0200: Client.send_tracked_data begin remote_object.process_filial_data
+2011-12-31 23:41:49 +0200: Waiting till server is online. Sleep for 0 seconds
+2011-12-31 23:41:49 +0200: PreparedDataQueue.remove_acknowledged_data ids=[1, 23, 45, 246]
+2011-12-31 23:41:50 +0200: PreparedDataQueue.remove_acknowledged_data ids=[1, 23, 45]
+2011-12-31 23:41:50 +0200: TrackingsQueue.save_trackings
+2011-12-31 23:41:50 +0200: TrackingsQueue.save_trackings
+2011-12-31 23:41:50 +0200: TrackingsQueue.purge!
+2011-12-31 23:41:50 +0200: TrackingsQueue.save_trackings
+2011-12-31 23:41:50 +0200: TrackingsQueue.clear!
+2011-12-31 23:41:50 +0200: TrackingsQueue.save_trackings
+2011-12-31 23:41:50 +0200: TrackingsQueue.clear!

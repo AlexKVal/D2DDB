@@ -2,8 +2,7 @@ require 'spec_helper'
 
 module Central
   describe Applier do
-    let(:stdout)  { StringIO.new }
-    let(:applier) { Applier.new(TESTDB_ALIAS, stdout) }
+    let(:applier) { Applier.new(TESTDB_ALIAS) }
 
     describe "#names_values_for_insert_from" do
       it "doesn't quotes column names" do
