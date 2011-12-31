@@ -4,8 +4,9 @@ require_relative '../shared/pvsw'
 
 module Central
   class Applier
-    def initialize(rdq = ReceivedDataQueue.new)
+    def initialize(rdq = ReceivedDataQueue.new, stdout = $stdout)
       @received_data_queue = rdq
+      @stdout = stdout
     end
 
     def run
@@ -14,7 +15,7 @@ module Central
 
         received_rows = @received_data_queue.data
         received_rows.each do |row|
-          p sql = case row.action
+          @stdout.puts sql = case row.action
           when 'I'
             sql_for_insert(row.tblname, row.data)
           when 'U'

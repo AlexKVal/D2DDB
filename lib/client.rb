@@ -18,12 +18,14 @@ module Filial
     def initialize(fil_id,
                    tbl_tracking = TableTracking.new,
                    tr_queue     = TrackingsQueue.new,
-                   prep_data_q  = PreparedDataQueue.new)
+                   prep_data_q  = PreparedDataQueue.new,
+                   stdout = $stdout)
       @filial_id           = fil_id
       @table_tracking      = tbl_tracking
       @trackings_queue     = tr_queue
       @prepared_data_queue = prep_data_q
-      
+      @stdout = stdout
+
       @infinite = true
       @seconds_wait = 10
     end
@@ -52,7 +54,7 @@ module Filial
         acknowledged_ids = @remote_object.process_filial_data(@filial_id, data_to_transmit)
         break
       rescue
-        puts "Waiting till server is online."
+        @stdout.puts "Waiting till server is online."
         sleep @seconds_wait
       end while @infinite
 

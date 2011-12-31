@@ -6,7 +6,8 @@ module Filial
     let(:table_tracking)      { double("TableTracking").as_null_object }
     let(:prepared_data_queue) { double("PreparedDataQueue") }
     let(:remote_double)       { double('proxy').as_null_object }
-    let(:client) { Client.new('filial', table_tracking, trackings_queue, prepared_data_queue) }
+    let(:stdout) { StringIO.new }
+    let(:client) { Client.new('filial', table_tracking, trackings_queue, prepared_data_queue, stdout) }
 
     describe "#get_trackings!" do
       describe "when there are no trackings" do
@@ -48,18 +49,13 @@ module Filial
     describe "#send_tracked_data" do
       Pdr = Struct.new :id, :tblname, :rowid, :action, :data
 
-      let(:stdout) { StringIO.new }
-
       before do
         @data_rows = []
         @data_rows << Pdr.new(1, 'one', 23, 'I', 'json_data')
         @data_rows << Pdr.new(2, 'one', 23, 'U', 'json_data2')
         @serialized = [[1, 'one', 23, 'I', 'json_data'], [2, 'one', 23, 'U', 'json_data2']]
         @ack_ids = [1, 2]
-        @orig_stdout = $stdout
-        $stdout = stdout
       end
-      after { $stdout = @orig_stdout }
 
       it "serialize prepared data, put them to remote and process ack_ids" do
         prepared_data_queue.should_receive(:data).and_return(@data_rows)
