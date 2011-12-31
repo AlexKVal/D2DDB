@@ -6,8 +6,7 @@ module Filial
     let(:table_tracking)      { double("TableTracking").as_null_object }
     let(:prepared_data_queue) { double("PreparedDataQueue") }
     let(:remote_double)       { double('proxy').as_null_object }
-    let(:stdout) { StringIO.new }
-    let(:client) { Client.new('filial', TESTDB_ALIAS, table_tracking, trackings_queue, prepared_data_queue, stdout) }
+    let(:client) { Client.new('filial', TESTDB_ALIAS, table_tracking, trackings_queue, prepared_data_queue) }
 
     describe "#get_trackings!" do
       describe "when there are no trackings" do
@@ -76,8 +75,6 @@ module Filial
 
         client.remote_object = remote_double
         client.send_tracked_data
-
-        stdout.string.should match(/Waiting till server is online/)
       end
     end
 

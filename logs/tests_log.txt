@@ -1,0 +1,18 @@
+# Logfile created on 2011-12-31 22:33:06 +0200 by logger.rb/31641
+2011-12-31 22:33:06 +0200: Client.new pvsw_alias=TestDB.NET
+2011-12-31 22:33:06 +0200: Client.get_trackings!
+2011-12-31 22:33:06 +0200: Client.new pvsw_alias=TestDB.NET
+2011-12-31 22:33:06 +0200: Client.get_trackings!
+2011-12-31 22:33:06 +0200: Client.new pvsw_alias=TestDB.NET
+2011-12-31 22:33:06 +0200: Client.get_trackings!
+2011-12-31 22:33:06 +0200: Client.new pvsw_alias=TestDB.NET
+2011-12-31 22:33:06 +0200: Client.prepare_tracked_data
+2011-12-31 22:33:06 +0200: Client.new pvsw_alias=TestDB.NET
+2011-12-31 22:33:06 +0200: Client.send_tracked_data
+2011-12-31 22:33:06 +0200: Client.send_tracked_data data_to_transmit=[[1, "one", 23, "I", "json_data"], [2, "one", 23, "U", "json_data2"]]
+2011-12-31 22:33:06 +0200: Client.send_tracked_data begin remote_object.process_filial_data
+2011-12-31 22:33:06 +0200: Client.new pvsw_alias=TestDB.NET
+2011-12-31 22:33:06 +0200: Client.send_tracked_data
+2011-12-31 22:33:06 +0200: Client.send_tracked_data data_to_transmit=[[1, "one", 23, "I", "json_data"], [2, "one", 23, "U", "json_data2"]]
+2011-12-31 22:33:06 +0200: Client.send_tracked_data begin remote_object.process_filial_data
+2011-12-31 22:33:06 +0200: Waiting till server is online. Sleep for 0 seconds

@@ -6,25 +6,20 @@ module Filial
 
   client = Client.new(FILIAL_ID, FILIAL_ALIAS)
   client.setup_remote_object(SERVER_URI)
+  client.seconds_wait = SECONDS_WAIT_SERVER
+
   while true
-    puts "\nget_trackings!"
-    puts "#{'='*60}"
-    client.get_trackings!
-    puts "#{'='*60}"
+    LOG.debug "main client loop"
 
-    puts "\nprepare_tracked_data"
-    puts "#{'='*60}"
-    client.prepare_tracked_data
-    puts "#{'='*60}"
+    unless client.get_trackings!
+      LOG.info "got trackings"
 
-    sleep 3
+      client.prepare_tracked_data
 
-    puts "\nsend_tracked_data"
-    puts "#{'='*60}"
-    client.seconds_wait = SECONDS_WAIT_SERVER
-    client.send_tracked_data
-    puts "#{'='*60}"
-    sleep 6
+      client.send_tracked_data
+    end
+
+    sleep MAIN_LOOP_PAUSE
   end
 
 end
