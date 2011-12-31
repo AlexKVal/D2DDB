@@ -10,13 +10,17 @@ module Filial
     puts "#{'='*60}"
     client.get_trackings!
     puts "#{'='*60}"
-    sleep(3)
-
 
     puts "\prepare_tracked_data"
     puts "#{'='*60}"
     client.prepare_tracked_data
-    #client.send_tracked_data
+    puts "#{'='*60}"
+    
+    sleep(3)
+    
+    puts "\prepare_tracked_data"
+    puts "#{'='*60}"
+    client.send_tracked_data
     puts "#{'='*60}"
     sleep(6)
   end

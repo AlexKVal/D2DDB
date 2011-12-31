@@ -1,6 +1,6 @@
 SIDE = 'central'
 
-require_relative 'lib/applier'
+require_relative 'lib/central/applier'
 
 # debug
 require_relative 'lib/client/prepared_data_queue'

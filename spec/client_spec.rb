@@ -5,9 +5,8 @@ module Filial
     let(:trackings_queue)     { double("TrackingsQueue").as_null_object }
     let(:table_tracking)      { double("TableTracking").as_null_object }
     let(:prepared_data_queue) { double("PreparedDataQueue") }
-    let(:exchanger)           { double("Exchanger").as_null_object }
-    let(:client) { Client.new(table_tracking, trackings_queue,
-                              prepared_data_queue, exchanger) }
+    let(:remote_double)       { double('proxy').as_null_object }
+    let(:client) { Client.new('filial', table_tracking, trackings_queue, prepared_data_queue) }
 
     describe "#get_trackings!" do
       describe "when there are no trackings" do
@@ -47,11 +46,20 @@ module Filial
     end
 
     describe "#send_tracked_data" do
-      it "asks the Exchanger to send prepared data" do
-        #data = double("data")
-        exchanger.should_receive(:send).ordered.with(prepared_data_queue)
-        #exchanger.should_receive(:acknowledged_data).ordered.and_return(data)
-        #prepared_data_queue.should_receive(:remove_acknowledged_data!).with(data)
+      Pdr = Struct.new :id, :tblname, :rowid, :action, :data
+
+      it "serialize prepared data, put them to remote and process ack_ids" do
+        data_rows = []
+        data_rows << Pdr.new(1, 'one', 23, 'I', 'json_data')
+        data_rows << Pdr.new(2, 'one', 23, 'U', 'json_data2')
+        serialized = [[1, 'one', 23, 'I', 'json_data'], [2, 'one', 23, 'U', 'json_data2']]
+        ack_ids = [1, 2]
+
+        prepared_data_queue.should_receive(:data).and_return(data_rows)
+        remote_double.should_receive(:process_filial_data).with('filial', serialized).and_return(ack_ids)
+        prepared_data_queue.should_receive(:remove_acknowledged_data!).with(ack_ids)
+
+        client.remote_object = remote_double
         client.send_tracked_data
       end
     end
