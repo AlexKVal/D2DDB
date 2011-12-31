@@ -21,7 +21,7 @@ module Filial
 
     puts "\nsend_tracked_data"
     puts "#{'='*60}"
-    client.seconds_wait = SECONDS_WAIT
+    client.seconds_wait = SECONDS_WAIT_SERVER
     client.send_tracked_data
     puts "#{'='*60}"
     sleep 6
