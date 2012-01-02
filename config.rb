@@ -15,4 +15,4 @@ $SAFE = 1   # disable eval() and friends
 
 # Common
 LOG_FILENAME = nil #'_log.txt' # if nil then log to stdout
-LOG_VERBOSE  = true
+LOG_VERBOSE  = false

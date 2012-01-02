@@ -67,7 +67,10 @@ module Filial
       acknowledged_ids = []
       begin
         LOG.debug "Client.send_tracked_data begin remote_object.process_filial_data"
-        acknowledged_ids = @remote_object.process_filial_data(@filial_id, data_to_transmit)
+        acknowledged_ids = @remote_object.process_filial_data(@filial_id, data_to_transmit) do |ack|
+          puts "Ack: #{ack}"
+          "Yeah! U Can process data!"
+        end
         break
       rescue
         LOG.info "Waiting till server is online. Sleep for #{@seconds_wait} seconds"
