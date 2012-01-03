@@ -10,7 +10,7 @@ then it sorts/purges those changes and send to server.
 ClientMessage[new_changes, acknowledge_of_previous_changes_from_server]
 
 Todo:
-- refactor with a messaging framework
 - multi - filial code
 - merging changes of both sides
 - synhro from central to filial
+- maybe refactor with a messaging framework
