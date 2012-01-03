@@ -9,18 +9,18 @@ module Filial
   client.seconds_wait = SECONDS_WAIT_SERVER
 
   while true
-    LOG.debug "main client loop"
+    LOG.debug "==> Main Loop <=="
 
-    puts "main client loop"
-    #if client.get_trackings!
+    if client.get_trackings!
       client.get_trackings!
-      LOG.info "got trackings"
+      LOG.info "==> got trackings"
 
       client.prepare_tracked_data
 
       client.send_tracked_data
-    #end
+    end
 
+    LOG.debug "sleep for #{MAIN_LOOP_PAUSE}"
     sleep MAIN_LOOP_PAUSE
   end
 

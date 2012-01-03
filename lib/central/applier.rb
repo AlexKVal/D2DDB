@@ -28,7 +28,7 @@ module Central
             sql_for_delete(row.tblname, row.rowid, row.data)
           end
 
-          LOG.debug "Applier.run sql=#{sql}"
+          LOG.debug "sql=#{sql}"
 
           pvsw.run_simple sql
         end

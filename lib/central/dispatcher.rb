@@ -9,33 +9,33 @@ module Central
       @applier = appl
     end
 
-    def process_filial_data(filial_id, incoming_data, &block)
+    def receive_filial_data(filial_id, incoming_data, &block)
       unless incoming_data.size == 0
-        LOG.debug "Dispatcher.process_filial_data"
-
         LOG.info "Incoming data: #{incoming_data.size} for filial: #{filial_id}"
-        
-        puts "Sleep 10: Saving incoming_data"
-        sleep 15
-        saved_ids = @received_data_queue.save(incoming_data)
+        LOG.debug "Dispatcher.receive_filial_data incoming_data=#{incoming_data.inspect}"
 
-        ack = "received and saved. Process data?"
-        answer = yield ack
-        puts answer
+        received_ids = incoming_data.inject([]) {|ids, row| ids << row[0]}
 
-        puts "Sleep 10: Processing data"
-        sleep 15
-        LOG.info "Processing data for filial: #{filial_id}"
-        @applier.run
+        # the client waits ids of received rows as an acknowledge
+        # and returns just 'ok' as a signal that connection has not been broken.
+        LOG.debug "yield received_ids=#{received_ids.inspect}. Next has to be answer !"
+        answer = yield received_ids
+        LOG.debug "got answer=#{answer}"
 
-        puts "Sleep 10: return saved_ids"
-        sleep 15
-        return saved_ids
+        if answer
+          LOG.info "Processing data for filial: #{filial_id}"
+
+          @received_data_queue.save(incoming_data)
+
+          @applier.run
+        else
+          LOG.info "Dispatcher.receive_filial_data problems w/ connection ?"
+        end
       else
         LOG.info "Empty incoming data from filial: #{filial_id}"
-
-        return []
       end
+
+      LOG.info "== The end of processing received data for filial: #{filial_id}"
     end
   end
 end

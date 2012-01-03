@@ -55,29 +55,27 @@ module Filial
     end
 
     def send_tracked_data
-      LOG.debug "Client.send_tracked_data"
+      LOG.info "Client.send_tracked_data"
 
-      data_to_transmit = []
-      @prepared_data_queue.data.each do |pdr|
-        data_to_transmit << [pdr.id, pdr.tblname, pdr.rowid, pdr.action, pdr.data]
-      end
+      data_to_send = @prepared_data_queue.data_to_send
 
-      LOG.debug "Client.send_tracked_data data_to_transmit=#{data_to_transmit.inspect}"
-
-      acknowledged_ids = []
       begin
-        LOG.debug "Client.send_tracked_data begin remote_object.process_filial_data"
-        acknowledged_ids = @remote_object.process_filial_data(@filial_id, data_to_transmit) do |ack|
-          puts "Ack: #{ack}"
-          "Yeah! U Can process data!"
+        LOG.debug "Client begin: remote_object.receive_filial_data"
+        @remote_object.receive_filial_data(@filial_id, data_to_send) do |received_ids|
+
+          @prepared_data_queue.remove_sent(received_ids)
+
+          LOG.debug "in block: return to server 'ok'"
+          'ok' # answer to server
         end
+        LOG.debug "break"
         break
       rescue
         LOG.info "Waiting till server is online. Sleep for #{@seconds_wait} seconds"
         sleep @seconds_wait
       end while @infinite
 
-      @prepared_data_queue.remove_acknowledged_data!(acknowledged_ids)
+      LOG.info "== The end of sending data."
     end
   end
 end

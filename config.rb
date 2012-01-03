@@ -1,7 +1,7 @@
 # Filial-side
 FILIAL_ID = 'Chab' # used for distinguish connections on server-side
 SERVER_URI = 'druby://localhost:8083'
-SECONDS_WAIT_SERVER = 2
+SECONDS_WAIT_SERVER = 6
 FILIAL_ALIAS = "D2Main.NET"
 MAIN_LOOP_PAUSE = 3
 
@@ -15,4 +15,4 @@ $SAFE = 1   # disable eval() and friends
 
 # Common
 LOG_FILENAME = nil #'_log.txt' # if nil then log to stdout
-LOG_VERBOSE  = false
+LOG_VERBOSE  = true

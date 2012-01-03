@@ -1,58 +1,90 @@
-# Logfile created on 2011-12-31 23:41:49 +0200 by logger.rb/31641
-2011-12-31 23:41:49 +0200: Applier.new pvsw_alias=TestDB.NET
-2011-12-31 23:41:49 +0200: Applier.new pvsw_alias=TestDB.NET
-2011-12-31 23:41:49 +0200: Applier.new pvsw_alias=TestDB.NET
-2011-12-31 23:41:49 +0200: Applier.new pvsw_alias=TestDB.NET
-2011-12-31 23:41:49 +0200: Applier.new pvsw_alias=TestDB.NET
-2011-12-31 23:41:49 +0200: Applier.new pvsw_alias=TestDB.NET
-2011-12-31 23:41:49 +0200: Applier.new pvsw_alias=TestDB.NET
-2011-12-31 23:41:49 +0200: Applier.new pvsw_alias=TestDB.NET
-2011-12-31 23:41:49 +0200: Applier.new pvsw_alias=TestDB.NET
-2011-12-31 23:41:49 +0200: Applier.new pvsw_alias=TestDB.NET
-2011-12-31 23:41:49 +0200: Applier.new pvsw_alias=TestDB.NET
-2011-12-31 23:41:49 +0200: Applier.new pvsw_alias=TestDB.NET
-2011-12-31 23:41:49 +0200: Applier.new pvsw_alias=TestDB.NET
-2011-12-31 23:41:49 +0200: Dispatcher.process_filial_data
-2011-12-31 23:41:49 +0200: Incoming data: 2 for filial: filial
-2011-12-31 23:41:49 +0200: Processing data for filial: filial
-2011-12-31 23:41:49 +0200: ReceivedDataQueue.save
-2011-12-31 23:41:49 +0200: saving received data: twoTable 44 I
-2011-12-31 23:41:49 +0200: ReceivedDataQueue.save
-2011-12-31 23:41:49 +0200: saving received data: oneTable 23 I
-2011-12-31 23:41:49 +0200: saving received data: twoTable 44 I
-2011-12-31 23:41:49 +0200: saving received data: oneTable 23 U
-2011-12-31 23:41:49 +0200: saving received data: twoTable 44 U
-2011-12-31 23:41:49 +0200: saving received data: twoTable 44 U
-2011-12-31 23:41:49 +0200: ReceivedDataQueue.save
-2011-12-31 23:41:49 +0200: saving received data: oneTable 23 I
-2011-12-31 23:41:49 +0200: saving received data: twoTable 44 I
-2011-12-31 23:41:49 +0200: saving received data: oneTable 23 U
-2011-12-31 23:41:49 +0200: ReceivedDataQueue.clear!
-2011-12-31 23:41:49 +0200: ReceivedDataQueue.save
-2011-12-31 23:41:49 +0200: saving received data: twoTable 44 I
-2011-12-31 23:41:49 +0200: Client.new pvsw_alias=TestDB.NET
-2011-12-31 23:41:49 +0200: Client.get_trackings!
-2011-12-31 23:41:49 +0200: Client.new pvsw_alias=TestDB.NET
-2011-12-31 23:41:49 +0200: Client.get_trackings!
-2011-12-31 23:41:49 +0200: Client.new pvsw_alias=TestDB.NET
-2011-12-31 23:41:49 +0200: Client.get_trackings!
-2011-12-31 23:41:49 +0200: Client.new pvsw_alias=TestDB.NET
-2011-12-31 23:41:49 +0200: Client.prepare_tracked_data
-2011-12-31 23:41:49 +0200: Client.new pvsw_alias=TestDB.NET
-2011-12-31 23:41:49 +0200: Client.send_tracked_data
-2011-12-31 23:41:49 +0200: Client.send_tracked_data data_to_transmit=[[1, "one", 23, "I", "json_data"], [2, "one", 23, "U", "json_data2"]]
-2011-12-31 23:41:49 +0200: Client.send_tracked_data begin remote_object.process_filial_data
-2011-12-31 23:41:49 +0200: Client.new pvsw_alias=TestDB.NET
-2011-12-31 23:41:49 +0200: Client.send_tracked_data
-2011-12-31 23:41:49 +0200: Client.send_tracked_data data_to_transmit=[[1, "one", 23, "I", "json_data"], [2, "one", 23, "U", "json_data2"]]
-2011-12-31 23:41:49 +0200: Client.send_tracked_data begin remote_object.process_filial_data
-2011-12-31 23:41:49 +0200: Waiting till server is online. Sleep for 0 seconds
-2011-12-31 23:41:49 +0200: PreparedDataQueue.remove_acknowledged_data ids=[1, 23, 45, 246]
-2011-12-31 23:41:50 +0200: PreparedDataQueue.remove_acknowledged_data ids=[1, 23, 45]
-2011-12-31 23:41:50 +0200: TrackingsQueue.save_trackings
-2011-12-31 23:41:50 +0200: TrackingsQueue.save_trackings
-2011-12-31 23:41:50 +0200: TrackingsQueue.purge!
-2011-12-31 23:41:50 +0200: TrackingsQueue.save_trackings
-2011-12-31 23:41:50 +0200: TrackingsQueue.clear!
-2011-12-31 23:41:50 +0200: TrackingsQueue.save_trackings
-2011-12-31 23:41:50 +0200: TrackingsQueue.clear!
+# Logfile created on 2012-01-03 18:57:45 +0200 by logger.rb/31641
+2012-01-03 18:57:51 +0200: Applier.new pvsw_alias=TestDB.NET
+2012-01-03 18:57:51 +0200: Applier.new pvsw_alias=TestDB.NET
+2012-01-03 18:57:51 +0200: Applier.new pvsw_alias=TestDB.NET
+2012-01-03 18:57:51 +0200: Applier.new pvsw_alias=TestDB.NET
+2012-01-03 18:57:51 +0200: Applier.new pvsw_alias=TestDB.NET
+2012-01-03 18:57:51 +0200: Applier.new pvsw_alias=TestDB.NET
+2012-01-03 18:57:51 +0200: Applier.new pvsw_alias=TestDB.NET
+2012-01-03 18:57:51 +0200: Applier.new pvsw_alias=TestDB.NET
+2012-01-03 18:57:51 +0200: Applier.new pvsw_alias=TestDB.NET
+2012-01-03 18:57:51 +0200: Applier.new pvsw_alias=TestDB.NET
+2012-01-03 18:57:51 +0200: Applier.new pvsw_alias=TestDB.NET
+2012-01-03 18:57:51 +0200: Applier.new pvsw_alias=TestDB.NET
+2012-01-03 18:57:51 +0200: Applier.new pvsw_alias=TestDB.NET
+2012-01-03 18:57:51 +0200: Applier.new pvsw_alias=TestDB.NET
+2012-01-03 18:57:51 +0200: Applier.run
+2012-01-03 18:57:51 +0200: sql=INSERT INTO tableTwo (ID, string_prm, integer_prm, date_prm) VALUES (23, 'value', 123, '12/12/2011')
+2012-01-03 18:57:51 +0200: ReceivedDataQueue.clear!
+2012-01-03 18:57:52 +0200: Applier.run
+2012-01-03 18:57:52 +0200: sql=UPDATE tableTwo SET string_prm = 'me me', integer_prm = 321, date_prm = '1/1/2011' WHERE ID = 23
+2012-01-03 18:57:52 +0200: ReceivedDataQueue.clear!
+2012-01-03 18:57:52 +0200: Applier.run
+2012-01-03 18:57:53 +0200: sql=DELETE FROM tableTwo WHERE ID = 23
+2012-01-03 18:57:53 +0200: ReceivedDataQueue.clear!
+2012-01-03 18:57:53 +0200: Applier.new pvsw_alias=TestDB.NET
+2012-01-03 18:57:53 +0200: Applier.run
+2012-01-03 18:57:53 +0200: sql=INSERT INTO tableTwo (ID, string_prm, integer_prm, date_prm) VALUES (23, 'value', 123, '2011-12-12')
+2012-01-03 18:57:53 +0200: ReceivedDataQueue.clear!
+2012-01-03 18:57:53 +0200: Incoming data: 2 for filial: filial
+2012-01-03 18:57:53 +0200: Dispatcher.receive_filial_data incoming_data=[[1, "one", 23, "I", "json_data"], [2, "one", 23, "U", "json_data2"]]
+2012-01-03 18:57:53 +0200: yield received_ids=[1, 2]. Next has to be answer !
+2012-01-03 18:57:53 +0200: got answer=ok
+2012-01-03 18:57:53 +0200: Processing data for filial: filial
+2012-01-03 18:57:53 +0200: == The end of processing received data for filial: filial
+2012-01-03 18:57:53 +0200: ReceivedDataQueue.save
+2012-01-03 18:57:53 +0200: saving received data: twoTable 44 I
+2012-01-03 18:57:53 +0200: ReceivedDataQueue.save
+2012-01-03 18:57:53 +0200: saving received data: oneTable 23 I
+2012-01-03 18:57:54 +0200: saving received data: twoTable 44 I
+2012-01-03 18:57:54 +0200: saving received data: oneTable 23 U
+2012-01-03 18:57:54 +0200: saving received data: twoTable 44 U
+2012-01-03 18:57:54 +0200: saving received data: twoTable 44 U
+2012-01-03 18:57:54 +0200: ReceivedDataQueue.save
+2012-01-03 18:57:54 +0200: saving received data: oneTable 23 I
+2012-01-03 18:57:54 +0200: saving received data: twoTable 44 I
+2012-01-03 18:57:54 +0200: saving received data: oneTable 23 U
+2012-01-03 18:57:54 +0200: ReceivedDataQueue.clear!
+2012-01-03 18:57:54 +0200: ReceivedDataQueue.save
+2012-01-03 18:57:54 +0200: saving received data: twoTable 44 I
+2012-01-03 18:57:54 +0200: Client.new pvsw_alias=TestDB.NET
+2012-01-03 18:57:54 +0200: Client.get_trackings!
+2012-01-03 18:57:54 +0200: Client.new pvsw_alias=TestDB.NET
+2012-01-03 18:57:54 +0200: Client.get_trackings!
+2012-01-03 18:57:54 +0200: Client.new pvsw_alias=TestDB.NET
+2012-01-03 18:57:54 +0200: Client.get_trackings!
+2012-01-03 18:57:54 +0200: Client.new pvsw_alias=TestDB.NET
+2012-01-03 18:57:54 +0200: Client.prepare_tracked_data
+2012-01-03 18:57:54 +0200: Client.new pvsw_alias=TestDB.NET
+2012-01-03 18:57:54 +0200: Client.send_tracked_data
+2012-01-03 18:57:54 +0200: Client begin: remote_object.receive_filial_data
+2012-01-03 18:57:54 +0200: break
+2012-01-03 18:57:54 +0200: == The end of sending data.
+2012-01-03 18:57:54 +0200: Client.new pvsw_alias=TestDB.NET
+2012-01-03 18:57:54 +0200: Client.send_tracked_data
+2012-01-03 18:57:54 +0200: Client begin: remote_object.receive_filial_data
+2012-01-03 18:57:54 +0200: Waiting till server is online. Sleep for 0 seconds
+2012-01-03 18:57:54 +0200: == The end of sending data.
+2012-01-03 18:57:54 +0200: PreparedDataQueue.data_to_send=[[1, "oneTable", 23, "I", "json_data"], [23, "twoTable", 44, "I", "json_data"]]
+2012-01-03 18:57:54 +0200: PreparedDataQueue.remove_sent sent_ids=[1, 23, 45, 246]
+2012-01-03 18:57:54 +0200: PreparedDataQueue.remove_sent sent_ids=[1, 23, 45]
+2012-01-03 18:57:54 +0200: TrackingsQueue.save_trackings
+2012-01-03 18:57:54 +0200: PreparedDataQueue.queue_next_by
+2012-01-03 18:57:55 +0200: saving data as prepared for: tableOne 1 I
+2012-01-03 18:57:55 +0200: TrackingsQueue.clear!
+2012-01-03 18:57:57 +0200: saving data as prepared for: tableOne 1 I
+2012-01-03 18:57:57 +0200: TableTracking.poll res=0
+2012-01-03 18:57:58 +0200: TableTracking.poll res=1
+2012-01-03 18:57:58 +0200: TableTracking.read_trackings
+2012-01-03 18:57:59 +0200: TableTracking.read_trackings
+2012-01-03 18:58:00 +0200: TableTracking.read_trackings
+2012-01-03 18:58:00 +0200: TableTracking.delete_read_trackings
+2012-01-03 18:58:00 +0200: TableTracking.delete_read_trackings read_ids=1, 2
+2012-01-03 18:58:00 +0200: TableTracking.read_trackings
+2012-01-03 18:58:01 +0200: TrackingsQueue.save_trackings
+2012-01-03 18:58:01 +0200: TrackingsQueue.save_trackings
+2012-01-03 18:58:01 +0200: TrackingsQueue.purge!
+2012-01-03 18:58:01 +0200: TrackingsQueue.save_trackings
+2012-01-03 18:58:01 +0200: TrackingsQueue.clear!
+2012-01-03 18:58:01 +0200: TrackingsQueue.save_trackings
+2012-01-03 18:58:01 +0200: TrackingsQueue.clear!

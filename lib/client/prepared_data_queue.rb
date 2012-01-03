@@ -7,6 +7,15 @@ module Filial
       PreparedDataRow.all
     end
 
+    def data_to_send
+      res = []
+      PreparedDataRow.all.each do |pdr|
+        res << [pdr.id, pdr.tblname, pdr.rowid, pdr.action, pdr.data]
+      end
+      LOG.debug "PreparedDataQueue.data_to_send=#{res}"
+      res
+    end
+
     def queue_next_by(trackings_queue)
       LOG.debug "PreparedDataQueue.queue_next_by"
 
@@ -16,10 +25,10 @@ module Filial
       trackings_queue.clear!
     end
 
-    def remove_acknowledged_data!(acknowledged_ids)
-      LOG.debug "PreparedDataQueue.remove_acknowledged_data ids=#{acknowledged_ids}"
+    def remove_sent(sent_ids)
+      LOG.debug "PreparedDataQueue.remove_sent sent_ids=#{sent_ids}"
 
-      acknowledged_ids.each do |id|
+      sent_ids.each do |id|
         PreparedDataRow.get(id).destroy
       end
 
