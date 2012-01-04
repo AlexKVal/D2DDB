@@ -1,5 +1,7 @@
 require_relative "pvsw"
 
+Pvsw.odbc_alias = "D2Exp.NET"
+
 class PvswSetup < Pvsw
 
   def initialize(dbc)
@@ -20,7 +22,7 @@ class PvswSetup < Pvsw
     setup_table_for_changes
     setup_test_tables
     #setup_triggers
-    
+
     puts "Ok."
   end
 
