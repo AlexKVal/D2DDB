@@ -14,14 +14,14 @@ class CompileCreate
   #{columns_part.join(",\n  ")}
 )
 "
-  indexes_part_cache = indexes_part
-  sql << "WITH INDEX
+    indexes_part_cache = indexes_part
+    sql << "WITH INDEX
 (
   #{indexes_part_cache.join(",\n  ")}
 )
 " if indexes_part_cache.size > 0
 
-  sql
+    sql
   end
 
   # array of Create statements for named indexes
@@ -52,7 +52,7 @@ class CompileCreate
     rows = []
     @columns.each do |arr|
       column = arr.last
-      rows << "#{column.name} #{type_to_s(column.type, column.length, column.name)}"
+      rows << "#{column.name} #{type_to_s(column)}"
     end
     rows
   end
@@ -90,32 +90,46 @@ class CompileCreate
     res.join(' ')
   end
 
-  def type_to_s(type, length, column_name)
-    case type
-    when 4
-      'INT(4)'
-    when 5
-      'INT(2)'
-    when 6
-      'FLOAT(8)'
-    when 1
-      "CHAR(#{length})"
-    when 12
-      "ZSTRING(#{length})"
-    when -7
-      'LOGICAL(1)'
-    when 91
-      'DATE(4)'
-    when 92
-      'TIME(4)'
-    when 93
-      'TIMESTAMP'
-    when -1
-      "NOTE(#{length})"
-    when -5
-      'INT(8)' # only one field CardCode and its not in use
+  def type_to_s(column)
+    if column.instance_variable_get("@autoincrement")
+      case column.type
+      when 4
+        'AUTOINC(4)'
+      when 5
+        puts "AUTOINC(2) #{@table_name}"
+        'AUTOINC(2)'
+      when -5
+        'AUTOINC(8)'
+      else
+        raise "Autoinc, but type is unknown: #{@table_name} #{column.name} #{column.type} #{column.length}"
+      end
     else
-      raise "Unknown Type: #{@table_name} #{column_name} #{type} #{length}"
+      case column.type
+      when 4
+        'INT(4)'
+      when 5
+        'INT(2)'
+      when 6
+        'FLOAT(8)'
+      when 1
+        "CHAR(#{column.length})"
+      when 12
+        "ZSTRING(#{column.length})"
+      when -7
+        'LOGICAL(1)'
+      when 91
+        'DATE'
+      when 92
+        'TIME'
+      when 93
+        'TIMESTAMP'
+      when -1
+        "NOTE(#{column.length})"
+      when -5
+        'INT(8)' # only one field CardCode and its not in use
+      else
+        raise "Unknown Type: #{@table_name} #{column.name} #{column.type} #{column.length}"
+      end
     end
   end
 
@@ -164,6 +178,6 @@ class CompileCreate
   end
 
   def not_ext_type?(flags)
-    raise "Strange Index is not a special BTrieve type" if (flags & 256) == 0
+    raise "it's strange: the index is not a special BTrieve type" if (flags & 256) == 0
   end
 end

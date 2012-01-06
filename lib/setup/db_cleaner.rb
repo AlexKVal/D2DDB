@@ -5,8 +5,8 @@ require "odbc_utf8"
 require_relative 'compile_create'
 
 bases_path      = 'C:\D2Bases'
-dirname_fromdb  = 'BarExp'
-dirname_todb    = 'NewExp'
+dirname_fromdb  = 'Old'
+dirname_todb    = 'New'
 odbc_alias_from = "#{dirname_fromdb}.NET"
 odbc_alias_to   = "#{dirname_todb}.NET"
 tmp_dir         = "#{bases_path}\\#{dirname_fromdb}\\#{dirname_todb}"
@@ -100,13 +100,12 @@ ODBC::connect(odbc_alias_from) do |dbc_from|
       stmt = dbc_from.run(sql)
       columns = stmt.columns
       stmt.drop
-      #p columns
+      # p columns
 
       # indexes
       indexes = []
-      sql= "SELECT xe$name, xi$flags, xi$number, xi$part
-        FROM x$index, x$field
-        WHERE xi$file = #{table_id}  AND xe$id = xi$field"
+      sql= "SELECT xe$name, xi$flags, xi$number, xi$part FROM x$index, x$field
+            WHERE xi$file = #{table_id}  AND xe$id = xi$field"
       stmt = dbc_from.run(sql)
       stmt.each do |row|
         indexes << {field_name: row[0].strip, flags: row[1], number: row[2], part: row[3]}
@@ -116,7 +115,6 @@ ODBC::connect(odbc_alias_from) do |dbc_from|
 
       named_indexes = []
       sql = "SELECT xe$name, xe$offset FROM x$Field WHERE xe$file = #{table_id} AND xe$datatype = 255"
-      #
       stmt = dbc_from.run(sql)
       stmt.each do |row|
         named_indexes << {index_name: row[0].strip, offset: row[1]}
@@ -143,7 +141,8 @@ ODBC::connect(odbc_alias_from) do |dbc_from|
       # CHECK indexes
       from_indexes = []
       sql= "SELECT xf$name, xe$name, xi$flags FROM x$index, X$File, X$Field
-        WHERE xf$Id = xi$file AND xi$field = xe$Id AND xf$name = '#{table_name}' ORDER BY xe$name"
+            WHERE xf$Id = xi$file AND xi$field = xe$Id
+            AND xf$name = '#{table_name}' ORDER BY xe$name"
       stmt = dbc_from.run(sql)
       stmt.each do |row|
         from_indexes << row
@@ -152,7 +151,8 @@ ODBC::connect(odbc_alias_from) do |dbc_from|
 
       to_indexes = []
       sql= "SELECT xf$name, xe$name, xi$flags FROM x$index, X$File, X$Field
-        WHERE xf$Id = xi$file AND xi$field = xe$Id AND xf$name = '#{table_name}' ORDER BY xe$name"
+            WHERE xf$Id = xi$file AND xi$field = xe$Id
+            AND xf$name = '#{table_name}' ORDER BY xe$name"
       stmt = dbc_to.run(sql)
       stmt.each do |row|
         to_indexes << row
@@ -170,7 +170,9 @@ ODBC::connect(odbc_alias_from) do |dbc_from|
       tmp_table = "C#{table_name}"[0..19]
       dbc_from.do("DROP TABLE #{tmp_table}") if table_existed?("#{tmp_table}", dbc_from)
 
-      tmp_sql_create = CompileCreate.new("#{tmp_table}", "#{dirname_todb}\\#{table_file}", columns, indexes, named_indexes)
+      tmp_sql_create = CompileCreate.new("#{tmp_table}",
+                        "#{dirname_todb}\\#{table_file}",
+                        columns, indexes, named_indexes)
       puts "#{tmp_table}" #{sql}"  #{sql_create.inspect}"
       dbc_from.do(tmp_sql_create.table_sql)
       # # create named indexes
@@ -192,9 +194,22 @@ ODBC::connect(odbc_alias_from) do |dbc_from|
       # remove table from Dictionary
       dbc_from.do("DROP TABLE #{tmp_table}")
 
-    end
-    FileUtils.remove_dir(tmp_dir, true) if File.exists?(tmp_dir)
-    puts "\n All is Done !"
-    puts Time.now
-  end
-end
+    end # tables.each
+
+    # hack for creating X$Proc and X$View tables
+    dbc_to.do("CREATE PROCEDURE tmpProc(a INT(4)); BEGIN DECLARE f FLOAT(8); END")
+    dbc_to.do("DROP PROCEDURE tmpProc")
+    dbc_to.do("CREATE VIEW tmpView (ID) AS SELECT Xe$Id FROM X$Field")
+    dbc_to.do("DROP VIEW tmpView")
+
+   end # dbc_to
+end # dbc_from
+
+Dir.rmdir(tmp_dir)
+
+# copy Views and Procs
+%x(xcopy /Y #{bases_path}\\#{dirname_fromdb}\\PROC.DDF #{bases_path}\\#{dirname_todb}\\)
+%x(xcopy /Y #{bases_path}\\#{dirname_fromdb}\\VIEW.DDF #{bases_path}\\#{dirname_todb}\\)
+
+puts "\n All is Done !"
+puts Time.now
