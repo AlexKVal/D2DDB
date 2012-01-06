@@ -57,11 +57,9 @@ class Pvsw
   end
 
   def run_single_result(sql)
-    res = nil
-    @dbc.run(sql) do |stmt|
-      res = stmt.first.first if stmt && stmt.first
-      stmt.drop
-    end
+    stmt = @dbc.run(sql)
+    res = (stmt && stmt.first) ? stmt.first.first : nil
+    stmt.drop
     res
   end
 
@@ -103,22 +101,10 @@ class Pvsw
   end
 
   def get_json_data_for(table, rowid)
-    cols = '*'
-    cols = RealizColumns if table == 'jRealizations' || table == 'jArcRealizations'
+    cols = (table == 'jRealizations' || table == 'jArcRealizations') ? RealizColumns : '*'
     stmt = @dbc.run("SELECT #{cols} FROM #{table} WHERE #{id_columns[table]} = #{rowid}")
-    # columns = stmt.columns
     row = stmt.fetch_hash
     stmt.drop
-
-    # 4 - 4 byte int
-    # 5 - 2 byte int
-    # 6 - float
-    # 12 - string
-    # -7 - bool
-    # 91 - Date
-    # 92 - Time
-    # bool can be set to 0 or 1 for PVSW
-
     row.to_json
   end
 

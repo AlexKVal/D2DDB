@@ -1,4 +1,4 @@
-require_relative "pvsw"
+require_relative "../shared/pvsw"
 
 Pvsw.odbc_alias = "D2Exp.NET"
 
