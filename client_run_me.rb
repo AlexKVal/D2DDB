@@ -11,14 +11,14 @@ module Filial
   while true
     LOG.debug "==> Main Loop <=="
 
-    if client.get_trackings!
-      client.get_trackings!
+    res = client.get_trackings!
+    #if res
       LOG.info "==> got trackings"
 
       client.prepare_tracked_data
 
       client.send_tracked_data
-    end
+    #end
 
     LOG.debug "sleep for #{MAIN_LOOP_PAUSE}"
     sleep MAIN_LOOP_PAUSE

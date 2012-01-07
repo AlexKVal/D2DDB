@@ -1,6 +1,7 @@
 # Filial-side
 FILIAL_ID = 'Chab' # used for distinguish connections on server-side
 SERVER_URI = 'druby://10.0.26.110:8083'
+CALLBACK_URI = 'druby://10.0.35.230:20083'
 SECONDS_WAIT_SERVER = 10
 FILIAL_ALIAS = "D2Exp.NET"
 MAIN_LOOP_PAUSE = 5

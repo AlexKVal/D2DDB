@@ -71,7 +71,7 @@ module Filial
         LOG.debug "break"
         break
       rescue
-        LOG.info "Waiting till server is online. Sleep for #{@seconds_wait} seconds"
+        LOG.info "!==> rescue: #{$!}. Sleep #{@seconds_wait}"
         sleep @seconds_wait
       end while @infinite
 
