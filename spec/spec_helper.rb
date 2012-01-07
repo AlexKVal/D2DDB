@@ -18,6 +18,8 @@ end
 Spork.prefork do
   ENV['TEST'] = 'True'
 
+  CENTRAL_PREFIX = "test"
+
   require "client/client"
   require "central/applier"
 

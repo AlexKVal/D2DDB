@@ -1,12 +1,19 @@
 require_relative "../shared/pvsw"
 require_relative "../../config"
 
-Pvsw.odbc_alias = FILIAL_ALIAS
+#Pvsw.odbc_alias = FILIAL_ALIAS
 
 class PvswSetup < Pvsw
 
   def initialize(dbc)
     super
+  end
+
+  def drop_triggers
+    return unless table_exist? 'X$Trigger'
+    @tables_to_watch.each do |tbl|
+      drop_triggers_for tbl
+    end
   end
 
   def run_setup_clientdb
@@ -80,13 +87,6 @@ class PvswSetup < Pvsw
       (
         ID UNIQUE
       )"
-    end
-
-    def drop_triggers
-      return unless table_exist? 'X$Trigger'
-      @tables_to_watch.each do |tbl|
-        drop_triggers_for tbl
-      end
     end
 
     def setup_triggers
@@ -181,11 +181,11 @@ end
 
 def print_help_message
   puts "Usage:"
-  puts "#{$0} server or client or test :)"
+  puts "#{$0} server or client or test or drop :)"
 end
 
 def setup_client_side_db
-  ODBC::connect(Pvsw.odbc_alias) do |dbc|
+  ODBC::connect(FILIAL_ALIAS) do |dbc|
     PvswSetup.new(dbc).run_setup_clientdb
   end
 end
@@ -196,6 +196,12 @@ def setup_testdb
   end
 end
 
+def setup_drop_triggers
+  ODBC::connect(FILIAL_ALIAS) do |dbc|
+    PvswSetup.new(dbc).drop_triggers
+  end
+end
+
 case ARGV[0]
 when 'test'
   setup_testdb
@@ -203,6 +209,8 @@ when 'server'
   setup_server_side_db
 when 'client'
   setup_client_side_db
+when 'drop'
+  setup_drop_triggers
 else
   print_help_message
 end

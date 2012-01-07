@@ -29,6 +29,7 @@ module Filial
       LOG.debug "PreparedDataQueue.remove_sent sent_ids=#{sent_ids}"
 
       sent_ids.each do |id|
+        puts "PreparedDataRow.get(#{id}).destroy"
         PreparedDataRow.get(id).destroy
       end
 

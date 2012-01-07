@@ -13,7 +13,7 @@ module Filial
     def setup_remote_object(server_uri)
       LOG.debug "Client.setup_remote_object server_uri=#{server_uri}"
 
-      DRb.start_service
+      DRb.start_service(CALLBACK_URI)
       LOG.debug "DRb.start_service on uri: #{DRb.uri}"
 
       @remote_object = DRbObject.new_with_uri server_uri
