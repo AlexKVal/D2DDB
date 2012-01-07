@@ -1,4 +1,5 @@
 config.rb
+_distr
 .rvmrc
 *.sqlite3
 sqlite3.dll

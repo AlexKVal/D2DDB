@@ -214,4 +214,3 @@ when 'drop'
 else
   print_help_message
 end
-
