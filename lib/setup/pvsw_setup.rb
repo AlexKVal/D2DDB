@@ -1,6 +1,7 @@
 require_relative "../shared/pvsw"
+require_relative "../../config"
 
-Pvsw.odbc_alias = "D2Exp.NET"
+Pvsw.odbc_alias = FILIAL_ALIAS
 
 class PvswSetup < Pvsw
 

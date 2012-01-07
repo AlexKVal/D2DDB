@@ -26,11 +26,16 @@ module Filial
 
       return unless @trackings && @trackings.size > 0
       # may be refactor this to use DataMapper methods. not sure.
-      read_ids = @trackings.inject([]) {|ids, row| ids << row[0]}.join(', ')
+      read_ids = @trackings.inject([]) {|ids, row| ids << row[0]}
 
-      LOG.debug "TableTracking.delete_read_trackings read_ids=#{read_ids}"
+      while read_ids.size > 0 do
+        part_ids = read_ids[0..9]
+        part_ids.size.times { read_ids.shift }
 
-      Pvsw.do_sql_single_result("DELETE FROM urDataCh WHERE ID IN(#{read_ids})")
+        sql = "DELETE FROM urDataCh WHERE ID IN(#{part_ids.join(', ')})"
+        LOG.debug "sql: #{sql}"
+        Pvsw.do_sql_single_result(sql)
+      end
       @trackings = nil
     end
   end
